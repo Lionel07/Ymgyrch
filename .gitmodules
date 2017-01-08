@@ -1,0 +1,6 @@
+[submodule "lib/libfmt"]
+	path = lib/libfmt
+	url = http://github.com/fmtlib/fmt
+[submodule "lib/rlutil"]
+	path = lib/rlutil
+	url = http://github.com/tapio/rlutil
