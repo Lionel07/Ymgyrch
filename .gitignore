@@ -1,0 +1,17 @@
+Build/
+Debug/
+x86/
+x64/
+*.db
+*.opendb
+*.filters
+.vs/
+
+# Ignore testing rom images
+*.gb
+*.bin
+*.rom
+
+
+# Ignore config files
+*.cfg
