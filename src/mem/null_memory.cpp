@@ -42,3 +42,7 @@ void CMem_Null::WriteLong(uint64_t address, uint64_t data) {
 uint64_t CMem_Null::GetSize() {
 	return mem_size;
 }
+
+void CMem_Null::LoadData(uint8_t * buffer, uint64_t sz) {
+
+}

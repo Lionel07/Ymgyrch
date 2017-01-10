@@ -1,6 +1,8 @@
 #include <mem/rom.h>
 #include <cstring>
 #include <log.h>
+#include <host.h>
+
 CMem_ROM::CMem_ROM(uint64_t size) {
 	mem_size = size;
 	memory = new uint8_t[size];
@@ -28,10 +30,20 @@ uint8_t CMem_ROM::ReadByte(uint64_t address)
 
 uint16_t CMem_ROM::ReadShort(uint64_t address)
 {
-	uint8_t b = ReadByte(address);
-	uint8_t a = ReadByte(address + 1);
+	uint8_t a;
+	uint8_t b;
 
-	return (uint16_t)((a << 8) | (b & 0xff));
+	if (littleEndian) {
+		a = ReadByte(address);
+		b = ReadByte(address + 1);
+	}
+	else {
+		a = ReadByte(address + 1);
+		b = ReadByte(address);
+	}
+
+	uint16_t ret = (uint16_t)((a << 8) | (b & 0xff));
+	return ret;
 }
 
 uint32_t CMem_ROM::ReadWord(uint64_t address)
@@ -64,7 +76,6 @@ uint64_t CMem_ROM::GetSize()
 
 void CMem_ROM::LoadData(uint8_t * buffer, uint64_t sz)
 {
-
 	uint64_t maxsz = mem_size;
 	if (sz < maxsz) {
 		maxsz = sz;

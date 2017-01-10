@@ -142,19 +142,17 @@ int main() {
 	g_config = new CConfig();
 	tui_init();
 
-	g_running_system = LoadSystem(GAMEBOY);
+	g_running_system = LoadSystem(CHIP8);
 	g_log->Log("MAIN", "Loaded System: {}", g_running_system->name);
 
 	// Start running system
 	g_running_system->Init();
 	g_running_system->Start();
-	g_running_system->LoadFile("cpu_instrs.gb");
+	g_running_system->LoadFile("PONG");
 
 	while (g_running_system->isActive) {
 		g_running_system->Tick();
 		tui_update();
-		//Sync
-		rlutil::msleep(500);
 	}
 	char ret = rlutil::getkey();
 	return 0;

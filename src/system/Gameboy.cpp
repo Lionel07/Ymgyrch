@@ -21,6 +21,11 @@ void CSys_Gameboy::Init() {
 	CMem_RAM * mmio0 = new CMem_RAM(0x80, "MMIO0");
 	CMem_RAM * hram0 = new CMem_RAM(0x7F, "HRAM0");
 	CMem_RAM * mintr = new CMem_RAM(0x01, "MINTR");
+	wram0->littleEndian = true;
+	weram0->littleEndian = true;
+	hires->littleEndian = true;
+	mmio0->littleEndian = true;
+	mintr->littleEndian = true;
 	mem.Map(wram0, 0xC000);
 	mem.Map(weram0, 0xE000);
 	mem.Map(hires, 0xFEA0);

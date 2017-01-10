@@ -31,9 +31,20 @@ uint8_t CMem_RAM::ReadByte(uint64_t address) {
 }
 
 uint16_t CMem_RAM::ReadShort(uint64_t address) {
-	uint8_t b = ReadByte(address);
-	uint8_t a = ReadByte(address + 1);
-	return (uint16_t)((a << 8) | (b & 0xff));
+	uint8_t a;
+	uint8_t b;
+
+	if (littleEndian) {
+		a = ReadByte(address);
+		b = ReadByte(address + 1);
+	}
+	else {
+		a = ReadByte(address + 1);
+		b = ReadByte(address);
+	}
+
+	uint16_t ret = (uint16_t)((a << 8) | (b & 0xff));
+	return ret;
 }
 
 uint32_t CMem_RAM::ReadWord(uint64_t address) {
@@ -70,4 +81,24 @@ void CMem_RAM::WriteLong(uint64_t address, uint64_t data) {
 
 uint64_t CMem_RAM::GetSize() {
 	return mem_size;
+}
+
+void CMem_RAM::LoadData(uint8_t * buffer, uint64_t sz)
+{
+	uint64_t maxsz = mem_size;
+	if (sz < maxsz) {
+		maxsz = sz;
+	}
+
+	memcpy(this->memory, buffer, maxsz);
+}
+
+void CMem_RAM::LoadData(uint8_t * buffer, uint64_t sz, uint64_t offset)
+{
+	uint64_t maxsz = mem_size;
+	if (sz < maxsz) {
+		maxsz = sz;
+	}
+
+	memcpy(this->memory + offset, buffer, maxsz);
 }

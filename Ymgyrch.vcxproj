@@ -144,6 +144,7 @@
     <ClCompile Include="src\core\gpu.cpp" />
     <ClCompile Include="src\core\system.cpp" />
     <ClCompile Include="src\cpu\6502.cpp" />
+    <ClCompile Include="src\cpu\CHIP8Cpu.cpp" />
     <ClCompile Include="src\cpu\LR35902.cpp" />
     <ClCompile Include="src\cpu\LR35902_Instructions.cpp" />
     <ClCompile Include="src\logger.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="src\mem\mirror_ram.cpp" />
     <ClCompile Include="src\mem\null_memory.cpp" />
     <ClCompile Include="src\mem\rom.cpp" />
+    <ClCompile Include="src\system\CHIP8.cpp" />
     <ClCompile Include="src\system\Gameboy.cpp" />
     <ClCompile Include="src\system\NES.cpp" />
     <ClCompile Include="src\system_chooser.cpp" />
@@ -159,9 +161,11 @@
   <ItemGroup>
     <ClInclude Include="src\includes\cpu.h" />
     <ClInclude Include="src\includes\cpu\6502.h" />
+    <ClInclude Include="src\includes\cpu\CHIP8Cpu.h" />
     <ClInclude Include="src\includes\cpu\LR35902.h" />
     <ClInclude Include="src\includes\device.h" />
     <ClInclude Include="src\includes\gpu.h" />
+    <ClInclude Include="src\includes\host.h" />
     <ClInclude Include="src\includes\log.h" />
     <ClInclude Include="src\includes\memcontroller.h" />
     <ClInclude Include="src\includes\memory.h" />
@@ -170,6 +174,7 @@
     <ClInclude Include="src\includes\mem\ram.h" />
     <ClInclude Include="src\includes\mem\rom.h" />
     <ClInclude Include="src\includes\system.h" />
+    <ClInclude Include="src\includes\system\CHIP8.h" />
     <ClInclude Include="src\includes\system\Gameboy.h" />
     <ClInclude Include="src\includes\system\NES.h" />
     <ClInclude Include="src\includes\ymgyrch.h" />

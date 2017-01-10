@@ -19,4 +19,6 @@ public:
 
 	uint64_t GetSize();
 
+	void LoadData(uint8_t * buffer, uint64_t sz);
+
 };

@@ -4,7 +4,8 @@
 enum Systems
 {
 	NES,
-	GAMEBOY
+	GAMEBOY,
+	CHIP8
 };
 CSystem * LoadSystem(enum Systems sys);
 

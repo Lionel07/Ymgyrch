@@ -63,3 +63,8 @@ uint64_t CMem_MirrorRAM::GetSize()
 {
 	return mem_size;
 }
+
+
+void CMem_MirrorRAM::LoadData(uint8_t * buffer, uint64_t sz) {
+	mirror->LoadData(buffer, sz);
+}
