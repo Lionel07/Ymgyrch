@@ -35,6 +35,12 @@ void CCpu_LR35902::op_dec_ ##REGA (CCpu_LR35902 * cpu) { \
 }
 
 
+void CCpu_LR35902::op_reserved(CCpu_LR35902 * cpu) {
+	g_log->Log(cpu->getName().c_str(), "Executed reserved instruction: 0x%X. Halting.", cpu->next_opcode);
+	cpu->Stop();
+}
+
+
 void CCpu_LR35902::op_nop(CCpu_LR35902 * cpu) {
 	cpu->regs.m += 1;
 }
@@ -124,6 +130,8 @@ LR35902CPU_DEF_LD(l, c)
 LR35902CPU_DEF_LD(l, d)
 LR35902CPU_DEF_LD(l, e)
 LR35902CPU_DEF_LD(l, h)
+
+void CCpu_LR35902::op_ld_nn_a(CCpu_LR35902 * cpu, uint16_t operand) { cpu->sys->mem.WriteByte(operand, cpu->regs.a); }
 
 LR35902CPU_DEF_LD_NN(bc)
 LR35902CPU_DEF_LD_NN(de)

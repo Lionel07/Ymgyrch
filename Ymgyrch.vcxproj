@@ -64,27 +64,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Build\</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\Ymgyrch</IntDir>
     <TargetExt>.lib</TargetExt>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Build\</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\Ymgyrch</IntDir>
     <TargetExt>.lib</TargetExt>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Build\</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\Ymgyrch\</IntDir>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Build\</OutDir>
-    <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\Ymgyrch</IntDir>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>

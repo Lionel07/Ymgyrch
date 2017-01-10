@@ -24,23 +24,34 @@ void CCpu_LR35902::TeachInstructions() {
 	// Unique instructions
 
 	//Uniques
-
 	LR35902CPU_TEACH(0x00, 0, "nop", nop);
 
-	//Jumps
+	LR35902CPU_TEACH(0xE0, 1, "ldh (0xFF00 + 0x%x), A", ldh_n_a);
+	LR35902CPU_TEACH(0xF0, 1, "ldh A, (0xFF00 + 0x%x)", ldh_a_n);
 
+
+	//Jumps
 	LR35902CPU_TEACH(0xC3, 2, "jp 0x%02X", jp_nn);
 	LR35902CPU_TEACH(0x18, 1, "jr 0x%02X", jr_n);
 	LR35902CPU_TEACH(0x28, 1, "jr z 0x%02X", jr_z_n);
 	LR35902CPU_TEACH(0x38, 1, "jr c 0x%02X", jr_c_n);
 	LR35902CPU_TEACH(0x20, 1, "jr nz 0x%02X", jr_nz_n);
 	LR35902CPU_TEACH(0x30, 1, "jr nc 0x%02X", jr_nc_n);
-	//RST
 
+	//Interrupts
+	LR35902CPU_TEACH(0xFB, 0, "ei", ei);
+	LR35902CPU_TEACH(0xF3, 0, "di", di);
+
+	LR35902CPU_TEACH(0xC7, 0, "rst 0x00", rst00);
+	LR35902CPU_TEACH(0xCF, 0, "rst 0x08", rst08);
+	LR35902CPU_TEACH(0xD7, 0, "rst 0x10", rst10);
+	LR35902CPU_TEACH(0xDF, 0, "rst 0x18", rst18);
+	LR35902CPU_TEACH(0xE7, 0, "rst 0x20", rst20);
+	LR35902CPU_TEACH(0xEF, 0, "rst 0x28", rst28);
+	LR35902CPU_TEACH(0xF7, 0, "rst 0x30", rst30);
 	LR35902CPU_TEACH(0xFF, 0, "rst 0x38", rst38);
 
 	// Load 8bit reg
-
 	LR35902CPU_TEACH(0x7F, 0, "ld a, a", nop);
 	LR35902CPU_TEACH_LD_N(0x78, a, b);
 	LR35902CPU_TEACH_LD_N(0x79, a, c);
@@ -90,9 +101,6 @@ void CCpu_LR35902::TeachInstructions() {
 	LR35902CPU_TEACH_LD_N(0x6B, l, e);
 	LR35902CPU_TEACH_LD_N(0x6C, l, h);
 	LR35902CPU_TEACH(0x6D, 0, "ld l, l", nop);
-
-	// Load N
-
 	LR35902CPU_TEACH_LD_NL(0x3E, a);
 	LR35902CPU_TEACH_LD_NL(0x06, b);
 	LR35902CPU_TEACH_LD_NL(0x0E, c);
@@ -106,7 +114,7 @@ void CCpu_LR35902::TeachInstructions() {
 	LR35902CPU_TEACH_LD_NNL(0x11, de);
 	LR35902CPU_TEACH_LD_NNL(0x21, hl);
 	LR35902CPU_TEACH_LD_NNL(0x31, sp);
-
+	LR35902CPU_TEACH(0xEA, 0, "ld (nn), a", ld_nn_a);
 	LR35902CPU_TEACH(0x22, 0, "ldi (hl), a", ldi_hlp_a);
 	LR35902CPU_TEACH(0x32, 0, "ldd (hl), a", ldd_hlp_a);
 
@@ -127,10 +135,9 @@ void CCpu_LR35902::TeachInstructions() {
 	LR35902CPU_TEACH(0xBB, 0, "cp e", cp_e);
 	LR35902CPU_TEACH(0xBC, 0, "cp h", cp_h);
 	LR35902CPU_TEACH(0xBD, 0, "cp l", cp_l);
-
 	LR35902CPU_TEACH(0xFE, 1, "cp n", cp_n);
-	// INC and DEC
 
+	// INC and DEC
 	LR35902CPU_TEACH(0x3C, 0, "inc a", inc_a);
 	LR35902CPU_TEACH(0x04, 0, "inc b", inc_b);
 	LR35902CPU_TEACH(0x0C, 0, "inc c", inc_c);
@@ -138,6 +145,10 @@ void CCpu_LR35902::TeachInstructions() {
 	LR35902CPU_TEACH(0x1C, 0, "inc e", inc_e);
 	LR35902CPU_TEACH(0x24, 0, "inc h", inc_h);
 	LR35902CPU_TEACH(0x2C, 0, "inc l", inc_l);
+	LR35902CPU_TEACH(0x03, 0, "inc bc", inc_bc);
+	LR35902CPU_TEACH(0x13, 0, "inc de", inc_de);
+	LR35902CPU_TEACH(0x23, 0, "inc hl", inc_hl);
+	LR35902CPU_TEACH(0x33, 0, "inc sp", inc_sp);
 
 	LR35902CPU_TEACH(0x3D, 0, "dec a", dec_a);
 	LR35902CPU_TEACH(0x05, 0, "dec b", dec_b);
@@ -146,23 +157,25 @@ void CCpu_LR35902::TeachInstructions() {
 	LR35902CPU_TEACH(0x1D, 0, "dec e", dec_e);
 	LR35902CPU_TEACH(0x25, 0, "dec h", dec_h);
 	LR35902CPU_TEACH(0x2D, 0, "dec l", dec_l);
-
-	LR35902CPU_TEACH(0x03, 0, "inc bc", inc_bc);
-	LR35902CPU_TEACH(0x13, 0, "inc de", inc_de);
-	LR35902CPU_TEACH(0x23, 0, "inc hl", inc_hl);
-	LR35902CPU_TEACH(0x33, 0, "inc sp", inc_sp);
 	LR35902CPU_TEACH(0x0B, 0, "dec bc", dec_bc);
 	LR35902CPU_TEACH(0x1B, 0, "dec de", dec_de);
 	LR35902CPU_TEACH(0x2B, 0, "dec hl", dec_hl);
 	LR35902CPU_TEACH(0x3B, 0, "dec sp", dec_sp);
 
-	LR35902CPU_TEACH(0xFB, 0, "ei", ei);
-	LR35902CPU_TEACH(0xF3, 0, "di", di);
 
 
-	LR35902CPU_TEACH(0xE0, 1, "ldh (0xFF00 + 0x%x), A", ldh_n_a);
-	LR35902CPU_TEACH(0xF0, 1, "ldh A, (0xFF00 + 0x%x)", ldh_a_n);
-
+	// Reserved instructions
+	LR35902CPU_TEACH(0xD3, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xDD, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xE3, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xE4, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xEB, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xEC, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xED, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xF2, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xF4, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xFC, 0, "RESERVED", reserved);
+	LR35902CPU_TEACH(0xFD, 0, "RESERVED", reserved);
 	firstTimeSetup = true;
 }
 
@@ -202,10 +215,8 @@ std::vector<std::string> CCpu_LR35902::GetRegStrings()
 	registers.push_back(fmt::format("B: 0x{0:02x} C: 0x{1:02x} | BC: 0x{2:04x} | SP: 0x{3:04x}", regs.b, regs.c, regs.bc, regs.sp));
 	registers.push_back(fmt::format("D: 0x{0:02x} E: 0x{1:02x} | DE: 0x{2:04x} | M : 0x{3:04x}", regs.d, regs.e, regs.de, regs.m));
 	registers.push_back(fmt::format("H: 0x{0:02x} L: 0x{1:02x} | HL: 0x{2:04x} | T : 0x{3:04x}", regs.h, regs.l, regs.hl, regs.t));
-	registers.push_back("--------------------------------------------------------");
-
 	int prev_pc = regs.pc;
-	int prev_instructions = 10;
+	int prev_instructions = ((g_config->tui_rows - 3) / 2) - 3;
 	int next_pc = regs.pc;
 	std::deque<std::string> dis;
 

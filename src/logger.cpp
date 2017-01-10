@@ -1,7 +1,8 @@
-#include "includes\log.h"
 #include <stdio.h>
 #include <cstdarg>
 #include <vector>
+#include "includes\log.h"
+
 Logger * g_log;
 
 void Logger::DoLog(const char * sys, const char * fmt, va_list a, va_list b)
@@ -23,11 +24,13 @@ void Logger::DoLog(const char * sys, const char * fmt, va_list a, va_list b)
 
 Logger::Logger()
 {
+
 }
 
 
 Logger::~Logger()
 {
+
 }
 
 void Logger::Log(const char * component, const char * fmt, ...)

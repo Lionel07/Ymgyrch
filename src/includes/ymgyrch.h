@@ -11,7 +11,19 @@ CSystem * LoadSystem(enum Systems sys);
 
 class CConfig {
 public:
-	bool realTimeDebug = false;
+	bool realTimeDebug = true;
+	enum GUIMODE {
+		NONE,
+		TUI,
+		LOG,
+		GUI
+	};
+	GUIMODE displayMode;
+
+
+	int tui_cols;
+	int tui_rows;
+
 };
 
 

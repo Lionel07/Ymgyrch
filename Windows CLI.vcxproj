@@ -75,27 +75,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)Build\$(Configuration)\WinCLI\</IntDir>
-    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\WinCLI\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
     <TargetName>Ymgyrch CLI</TargetName>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)Build\$(Configuration)\WinCLI\</IntDir>
-    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\WinCLI\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
     <TargetName>Ymgyrch CLI</TargetName>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(SolutionDir)Build\$(Configuration)\WinCLI\</IntDir>
-    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\WinCLI\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
     <TargetName>Ymgyrch CLI</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(SolutionDir)Build\$(Configuration)\WinCLI\</IntDir>
-    <OutDir>$(SolutionDir)Build\</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Platform)$(Configuration)\WinCLI\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Platform)$(Configuration)\</OutDir>
     <IncludePath>src\includes;lib\;$(IncludePath)</IncludePath>
     <TargetName>Ymgyrch CLI</TargetName>
   </PropertyGroup>

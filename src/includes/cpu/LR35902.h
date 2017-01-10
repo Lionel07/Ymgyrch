@@ -91,7 +91,7 @@ public:
 	void Init();
 	void Tick();
 	void PrintRegs();
-	std::vector<std::string> GetRegStrings();
+	virtual std::vector<std::string> GetRegStrings();
 	char * DisassembleInstruction(uint16_t pc);
 	void FetchNext();
 
@@ -107,6 +107,7 @@ public:
 	OP_0(nop)
 	OP_0(ei)
 	OP_0(di)
+	OP_0(reserved)
 
 	// Jumps
 	OP_2(jp_nn)
@@ -183,6 +184,8 @@ public:
 	OP_2(ld_de_nn)
 	OP_2(ld_hl_nn)
 	OP_2(ld_sp_nn)
+	
+	OP_2(ld_nn_a)
 
 	OP_2(ldi_hlp_a)
 	OP_2(ldd_hlp_a)
