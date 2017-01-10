@@ -65,8 +65,8 @@ void CSys_Gameboy::LoadFile(std::string path) {
 		uint8_t * cartbuffer = new uint8_t[fsize];
 		fread(cartbuffer, 1, fsize, rom);
 
-		g_log->Log("GB", "ROM Size: 0x%X", fsize);
-		g_log->Log("GB", "ROM Name: %s", &cartbuffer[0x134]);
+		g_log->Log("GB", "ROM Size: 0x{0:X}", fsize);
+		g_log->Log("GB", "ROM Name: {0:s}", &cartbuffer[0x134]);
 
 		int romnum = 0;
 		uint64_t cart_size = fsize;
@@ -89,7 +89,7 @@ void CSys_Gameboy::LoadFile(std::string path) {
 	}
 	else
 	{
-		g_log->Log("GB", "Failed to open rom %s", path.c_str());
+		g_log->Log("GB", "Failed to open rom {0:s}", path.c_str());
 		Stop();
 	}
 	

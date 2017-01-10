@@ -61,13 +61,14 @@ void tui_drawFrame() {
 }
 
 void tui_drawDebugger() {
-
+	if (g_running_system == nullptr) { return; }
+	if (g_config == nullptr) { return; }
 	if (!g_config->realTimeDebug) {
 		rlutil::locate((rlutil::tcols() / 2) + (rlutil::tcols() / 8), 4);
 		fmt::print("Real Time Debugger Disabled");
 		return;
 	}
-
+	
 	int cpus = g_running_system->cpu.size();
 	int cpuLogY = 2;
 	for (int c = 0; c < cpus; c++)
@@ -91,7 +92,7 @@ void tui_drawLog() {
 	for (int i = firstEntryIndex; i < lastEntryIndex; i++)
 	{
 		rlutil::locate(3, logPosY);
-		printf("%s\n", g_log->buffer[i]);
+		fmt::print("{0}", g_log->buffer[i]);
 		logPosY++;
 	}
 	g_log->FlushBufferToX(max_entries);
@@ -141,9 +142,8 @@ int main() {
 	g_config = new CConfig();
 	tui_init();
 
-
 	g_running_system = LoadSystem(GAMEBOY);
-	g_log->Log("MAIN", "Loaded System: %s", g_running_system->name.c_str());
+	g_log->Log("MAIN", "Loaded System: {}", g_running_system->name);
 
 	// Start running system
 	g_running_system->Init();
@@ -154,7 +154,7 @@ int main() {
 		g_running_system->Tick();
 		tui_update();
 		//Sync
-		rlutil::msleep(250);
+		rlutil::msleep(500);
 	}
 	char ret = rlutil::getkey();
 	return 0;

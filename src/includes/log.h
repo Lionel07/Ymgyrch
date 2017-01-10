@@ -3,6 +3,8 @@
 #include <cstdarg>
 #include <vector>
 #include <deque>
+#include <libfmt/fmt/ostream.h>
+#include <libfmt/fmt/format.h>
 enum LogLevel
 {
 	LOG_DEBUG = 0,
@@ -13,14 +15,23 @@ enum LogLevel
 
 class Logger
 {
-	void DoLog(const char *sys, const char *fmt, va_list a, va_list b);
-
+private:
+	void DoLog(std::string sys, std::string message);
 public:
-	Logger();
-	~Logger();
 	bool bufferOutput = false;
-	std::deque<char *> buffer;
-	void Log(const char * component, const char * fmt, ...);
+	std::deque<std::string> buffer;
+
+	
+	void Debug(std::string component, std::string format, fmt::ArgList args);
+	void Log(std::string component, std::string format, fmt::ArgList args);
+	void Warn(std::string component, std::string format, fmt::ArgList args);
+	void Error(std::string component, std::string format, fmt::ArgList args);
+	void Panic(std::string component, std::string format, fmt::ArgList args);
+	FMT_VARIADIC(void, Debug, std::string, std::string)
+	FMT_VARIADIC(void, Log, std::string, std::string)
+	FMT_VARIADIC(void, Warn, std::string, std::string)
+	FMT_VARIADIC(void, Error, std::string, std::string)
+	FMT_VARIADIC(void, Panic, std::string, std::string)
 	void FlushBufferToX(int x);
 
 };

@@ -199,12 +199,7 @@ void CCpu_LR35902::Tick() {
 }
 
 void CCpu_LR35902::PrintRegs() {
-	g_log->Log(getName().c_str(), "Registers:");
-	g_log->Log(getName().c_str(), "A: 0x%02X | F: 0x%02X | AF: 0x%04X", regs.a, regs.f, regs.af);
-	g_log->Log(getName().c_str(), "B: 0x%02X | C: 0x%02X | BC: 0x%04X", regs.b, regs.c, regs.bc);
-	g_log->Log(getName().c_str(), "D: 0x%02X | E: 0x%02X | DE: 0x%04X", regs.d, regs.e, regs.de);
-	g_log->Log(getName().c_str(), "H: 0x%02X | L: 0x%02X | HL: 0x%04X", regs.h, regs.l, regs.hl);
-	g_log->Log(getName().c_str(), "M: 0x%02X T: 0x%02X PC: 0x%04X SP: 0x%04X", regs.m, regs.t, regs.pc, regs.sp);
+
 }
 
 std::vector<std::string> CCpu_LR35902::GetRegStrings()
@@ -323,21 +318,11 @@ void CCpu_LR35902::FetchNext()
 	
 	if (instructions[next_opcode].run == nullptr)
 	{
-		g_log->Log(getName().c_str(), "Opcode 0x%02X is not implemented.", next_opcode);
+		g_log->Log(getName().c_str(), "Opcode 0x{0:02X} is not implemented.", next_opcode);
 		g_config->realTimeDebug = true;
-		//PrintRegs();
 		sys->Stop();
 		return;
 	}
-	if (g_config->realTimeDebug && false)
-	{
-		char * instruction_dissassembly = DisassembleInstruction(regs.pc);
-		g_log->Log(getName().c_str(), "%-16s (opcode 0x%02X)", instruction_dissassembly, next_opcode);
-		delete instruction_dissassembly;
-	}
-	
-
-	if (regs.pc > 0x02a0) { g_config->realTimeDebug = true; };
 
 	regs.pc += instructions[next_opcode].length + 1;
 

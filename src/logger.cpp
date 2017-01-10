@@ -1,47 +1,48 @@
 #include <stdio.h>
 #include <cstdarg>
 #include <vector>
-#include "includes\log.h"
-
+#include <log.h>
+#include <libfmt/fmt/format.h>
+#include <libfmt/fmt/printf.h>
 Logger * g_log;
 
-void Logger::DoLog(const char * sys, const char * fmt, va_list a, va_list b)
+void Logger::DoLog(std::string sys, std::string message)
 {
-	std::vector<char> buf(1 + std::vsnprintf(NULL, 0, fmt, b));
-	std::vsnprintf(buf.data(), buf.size(), fmt, a);
+	fmt::MemoryWriter final_message;
+	final_message.write(fmt::format("{0:5s}: {1:s}", sys, message));
+
 	if (bufferOutput)
 	{
-		char * buffed = new char[25 + buf.size()];
-		std::sprintf(buffed,"%-5s: %s", sys, buf.data());
-		buffer.push_back(buffed);
+		buffer.push_back(final_message.str());
 	}
 	else
 	{
-		std::printf("%16s : %s\n", sys, buf.data());
+		//fmt::print("{0:s}\n", final_message);
 	}
 	
 }
 
-Logger::Logger()
+void Logger::Debug(std::string component, std::string format, fmt::ArgList args)
 {
-
+	DoLog(component, fmt::format(format, args));
+}
+void Logger::Log(std::string component, std::string format, fmt::ArgList args)
+{
+	DoLog(component, fmt::format(format, args));
+}
+void Logger::Warn(std::string component, std::string format, fmt::ArgList args)
+{
+	DoLog(component, fmt::format(format, args));
+}
+void Logger::Error(std::string component, std::string format, fmt::ArgList args)
+{
+	DoLog(component, fmt::format(format, args));
+}
+void Logger::Panic(std::string component, std::string format, fmt::ArgList args)
+{
+	DoLog(component, fmt::format(format, args));
 }
 
-
-Logger::~Logger()
-{
-
-}
-
-void Logger::Log(const char * component, const char * fmt, ...)
-{
-	va_list a, b;
-	va_start(a, fmt);
-	va_copy(b, a);
-	DoLog(component, fmt, a, b);
-	va_end(a);
-	va_end(b);
-}
 
 void Logger::FlushBufferToX(int x)
 {
@@ -52,9 +53,8 @@ void Logger::FlushBufferToX(int x)
 	}
 	for (int i = 0; i < num; i++)
 	{
-		char * entry = buffer.front();
+		std::string entry = buffer.front();
 		buffer.pop_front();
-		delete entry;
 	}
 }
 

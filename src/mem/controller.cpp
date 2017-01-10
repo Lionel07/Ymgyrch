@@ -64,7 +64,7 @@ uint8_t CMemController::ReadByte(uint64_t address)
 	}
 	else
 	{
-		g_log->Log("MEM", "Read to unmapped memory (0x%X)", address);
+		g_log->Warn("MEM", "Read to unmapped memory (0x{0:X})", address);
 		return 0;
 	}
 }
@@ -78,7 +78,7 @@ uint16_t CMemController::ReadShort(uint64_t address)
 	}
 	else
 	{
-		g_log->Log("MEM", "Read to unmapped memory (0x%X)", address);
+		g_log->Warn("MEM", "Read to unmapped memory (0x{0:X})", address);
 		return 0;
 	}
 }
@@ -92,7 +92,7 @@ uint32_t CMemController::ReadWord(uint64_t address)
 	}
 	else
 	{
-		g_log->Log("MEM", "Read to unmapped memory (0x%X)", address);
+		g_log->Warn("MEM", "Read to unmapped memory (0x{0:X})", address);
 		return 0;
 	}
 }
@@ -106,7 +106,7 @@ uint64_t CMemController::ReadLong(uint64_t address)
 	}
 	else
 	{
-		g_log->Log("MEM", "Read to unmapped memory (0x%X)", address);
+		g_log->Warn("MEM", "Read to unmapped memory (0x{0:X})", address);
 		return 0;
 	}
 }
@@ -167,7 +167,7 @@ void CMemController::DebugPrintMemoryMap()
 
 	for (size_t i = 0; i < mappings_sorted.size(); i += 1)
 	{
-		g_log->Log("MEM", "%8s : 0x%04llX - 0x%04llX", mappings_sorted[i]->dev->name.c_str(), mappings_sorted[i]->start, mappings_sorted[i]->end);
+		g_log->Log("MEM", "{0:8s} : 0x{1:04X} - 0x{2:04X}", mappings_sorted[i]->dev->name.c_str(), mappings_sorted[i]->start, mappings_sorted[i]->end);
 	}
 
 }
