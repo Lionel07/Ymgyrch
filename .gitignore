@@ -11,7 +11,7 @@ x64/
 *.gb
 *.bin
 *.rom
-
+roms/
 
 # Ignore config files
 *.cfg

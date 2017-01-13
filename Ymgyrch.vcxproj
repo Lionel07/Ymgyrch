@@ -156,7 +156,6 @@
     <ClCompile Include="src\system\CHIP8.cpp" />
     <ClCompile Include="src\system\Gameboy.cpp" />
     <ClCompile Include="src\system\NES.cpp" />
-    <ClCompile Include="src\system_chooser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\includes\cpu.h" />

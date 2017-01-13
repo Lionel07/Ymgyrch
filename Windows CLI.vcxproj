@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="windows_cli\main.cpp" />
+    <ClCompile Include="windows_cli\system_chooser.cpp" />
+    <ClCompile Include="windows_cli\tui.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="lib\fmtlib.vcxproj">
@@ -28,6 +30,9 @@
     <ProjectReference Include="Ymgyrch.vcxproj">
       <Project>{1c5ee8a3-e351-4c00-ace8-af28458065b7}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="windows_cli\tui.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{70677670-F036-4C19-9F94-C98A0D165A7E}</ProjectGuid>
