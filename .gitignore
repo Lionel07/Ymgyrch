@@ -3,6 +3,7 @@ Build/
 Debug/
 x86/
 x64/
+docs/
 
 # Visual Studio
 *.vcxproj.user
