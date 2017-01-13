@@ -36,11 +36,11 @@ void CCpu_Chip8::DissassembleAndLog(uint16_t opcode) {
 
 void CCpu_Chip8::Tick() {
 	uint16_t opcode = sys->mem.ReadShort(regs.pc);
-	uint8_t operand_n;
+	//uint8_t operand_n;
 	uint8_t reg = (opcode & 0x0F00) >> 8;
 	uint8_t value;
-	uint16_t operand_nn;
-
+	//uint16_t operand_nn;
+	
 	//DissassembleAndLog(opcode);
 
 	switch (opcode & 0xF000)

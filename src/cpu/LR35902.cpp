@@ -205,53 +205,73 @@ void CCpu_LR35902::PrintRegs() {
 std::vector<std::string> CCpu_LR35902::GetRegStrings()
 {
 	std::vector<std::string> registers;
-	
+	std::deque<std::string>  dis;
+
 	registers.push_back(fmt::format("A: 0x{0:02x} F: 0x{1:02x} | AF: 0x{2:04x} | PC: 0x{3:04x}", regs.a, regs.f, regs.af, regs.pc));
 	registers.push_back(fmt::format("B: 0x{0:02x} C: 0x{1:02x} | BC: 0x{2:04x} | SP: 0x{3:04x}", regs.b, regs.c, regs.bc, regs.sp));
 	registers.push_back(fmt::format("D: 0x{0:02x} E: 0x{1:02x} | DE: 0x{2:04x} | M : 0x{3:04x}", regs.d, regs.e, regs.de, regs.m));
 	registers.push_back(fmt::format("H: 0x{0:02x} L: 0x{1:02x} | HL: 0x{2:04x} | T : 0x{3:04x}", regs.h, regs.l, regs.hl, regs.t));
-	int prev_pc = regs.pc;
+
+
+	int prev_pc = regs.pc - lastInstructionLength;
 	int prev_instructions = ((g_config->tui_rows - 3) / 2) - 3;
 	int next_pc = regs.pc;
-	std::deque<std::string> dis;
+	
+	bool attemptPastDissassemble = false;
 
 	char * dis_string;
 
-	for (int found_instructions = 0; found_instructions <= prev_instructions;)
+	if (!justJumped && attemptPastDissassemble)
 	{
-		bool found = false;
-		// Take prev_pc, run back until diff + instructions[opcode].length would equal prev_pc
-		// Set prev_pc to instruction
-		// Repeat
-
-		for (int j = 2; j > 0; j--)
+		for (int found_instructions = 0; found_instructions <= prev_instructions;)
 		{
-			uint64_t diff = prev_pc - j + 1;
-			uint8_t canidate = sys->mem.ReadByte(diff);
-			
-			if (instructions[canidate].length + diff == prev_pc)
+			bool found = false;
+			// Take prev_pc, run back until diff + instructions[opcode].length would equal prev_pc
+			// Set prev_pc to instruction
+			// Repeat
+
+			for (int j = 2; j > 0; j--)
 			{
-				if (prev_pc != regs.pc)
+				uint64_t diff = prev_pc - j + 1;
+				uint8_t canidate = sys->mem.ReadByte(diff);
+
+				if (instructions[canidate].length + diff == prev_pc)
 				{
 					dis_string = DisassembleInstruction((uint16_t)diff);
-					dis.push_front(fmt::format("|  0x{1:04x} : {0:25s}", dis_string , (uint16_t)diff));
+					dis.push_front(fmt::format("|  0x{1:04x} : {0:25s}", dis_string, (uint16_t)diff));
 					delete dis_string;
+
 					found_instructions++;
+					prev_pc -= j;
+					found = true;
+					break;
 				}
-				prev_pc -= j;
-				found = true;
-				break;
+			}
+
+			if (!found)
+			{
+				prev_pc -= 1;
+				dis.push_front(fmt::format("|  0x{0:04x} : 0x{1:02x}", prev_pc, sys->mem.ReadByte(prev_pc)));
+				found_instructions++;
+			}
+
+		}
+	}
+	else
+	{
+		if (attemptPastDissassemble)
+		{
+			for (int i = 0; i <= prev_instructions; i++) {
+				dis.push_front(fmt::format("|  0x{0:04x} : ???", prev_pc - i));
 			}
 		}
-
-		if (!found)
+		else
 		{
-			prev_pc -= 1;
-			dis.push_front(fmt::format("|  0x{0:04x} : 0x{1:02x}", prev_pc, sys->mem.ReadByte(prev_pc)));
-			found_instructions++;
+			prev_instructions = g_config->tui_rows - 8;
 		}
 		
 	}
+	
 	dis_string = DisassembleInstruction(regs.pc);
 	dis.push_back(fmt::format("|> 0x{1:04x} : {0:25s}", dis_string, regs.pc));
 	delete dis_string;
@@ -315,7 +335,7 @@ void CCpu_LR35902::FetchNext()
 	uint8_t operand8;
 	uint16_t operand16;
 	next_opcode = sys->mem.ReadByte(regs.pc);
-	
+	justJumped = false;
 	if (instructions[next_opcode].run == nullptr)
 	{
 		g_log->Log(getName().c_str(), "Opcode 0x{0:02X} is not implemented.", next_opcode);
@@ -325,7 +345,7 @@ void CCpu_LR35902::FetchNext()
 	}
 
 	regs.pc += instructions[next_opcode].length + 1;
-
+	lastInstructionLength = instructions[next_opcode].length + 1;
 	switch (instructions[next_opcode].length)
 	{
 	default:

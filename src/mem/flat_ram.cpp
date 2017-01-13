@@ -70,13 +70,13 @@ void CMem_RAM::WriteShort(uint64_t address, uint16_t data) {
 }
 
 void CMem_RAM::WriteWord(uint64_t address, uint32_t data) {
-	if (address > mem_size) { return; }
-	memory[address] = data;
+	WriteShort(address, (unsigned char)(data & 0x0000ffff));
+	WriteShort(address + 2, (unsigned char)((data & 0xffff0000) >> 16));
 }
 
 void CMem_RAM::WriteLong(uint64_t address, uint64_t data) {
 	if (address > mem_size) { return; }
-	memory[address] = data;
+	//TODO: Implement
 }
 
 uint64_t CMem_RAM::GetSize() {

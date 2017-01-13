@@ -33,7 +33,23 @@ void TextUI::Update() {
 		cache_logentry_last = g_log->buffer.size();
 		do_log = true;
 	}
-	if (g_config->realTimeDebug == true && !paused) { do_debug = true; } // If we're debugging
+	if (g_config->realTimeDebug == true) { // If we're debugging
+
+		if (paused && stepping)
+		{
+			do_debug = true;
+		}
+
+		if (!paused)
+		{
+			do_debug = true;
+		}
+
+		if ((updates % 1000) == 0) {
+			do_debug = true; 
+		}
+
+	} 
 
 	if ((updates % 100) == 0) { // On screen size change
 		int c_rows = rlutil::trows();

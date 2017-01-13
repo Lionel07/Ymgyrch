@@ -5,6 +5,7 @@
 #include <mem/rom.h>
 #include <mem/mirror_ram.h>
 #include <mem/null_memory.h>
+
 CSys_Gameboy::CSys_Gameboy() {
 	this->name = "Gameboy";
 }
@@ -54,6 +55,10 @@ void CSys_Gameboy::Tick() {
 }
 
 void CSys_Gameboy::Reset() {
+	for each (CCpu * cur in cpu)
+	{
+		delete cur;
+	}
 	cpu.clear();
 	Init();
 }

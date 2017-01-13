@@ -46,15 +46,6 @@ void Logger::Panic(std::string component, std::string format, fmt::ArgList args)
 
 void Logger::FlushBufferToX(int x)
 {
-	int num = buffer.size() - x;
-	if (num < 1)
-	{
-		return;
-	}
-	for (int i = 0; i < num; i++)
-	{
-		std::string entry = buffer.front();
-		buffer.pop_front();
-	}
+	//TODO: Implement properly
 }
 

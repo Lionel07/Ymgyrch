@@ -1,7 +1,11 @@
+# Build artificats
 Build/
 Debug/
 x86/
 x64/
+
+# Visual Studio
+*.vcxproj.user
 *.db
 *.opendb
 *.filters

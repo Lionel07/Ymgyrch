@@ -167,7 +167,7 @@ void CMemController::DebugPrintMemoryMap()
 
 	for (size_t i = 0; i < mappings_sorted.size(); i += 1)
 	{
-		g_log->Log("MEM", "{0:8s} : 0x{1:04X} - 0x{2:04X}", mappings_sorted[i]->dev->name.c_str(), mappings_sorted[i]->start, mappings_sorted[i]->end);
+		g_log->Log("MEM", "{0:9s} : 0x{1:04X} => 0x{2:04X}", mappings_sorted[i]->dev->name.c_str(), mappings_sorted[i]->start, mappings_sorted[i]->end);
 	}
 
 }

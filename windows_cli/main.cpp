@@ -37,7 +37,7 @@ void parseCmdline(char argc, char * argv[]) {
 			}
 			else
 			{
-				g_config->realTimeDebug = false;
+				g_config->realTimeDebug = false; 
 			}
 			findingSystem = false;
 			continue;
@@ -51,6 +51,11 @@ void parseCmdline(char argc, char * argv[]) {
 			findingDebug = true;
 			continue;
 		}
+		if (strcmp(argv[i], "-pause") == 0) {
+			g_tui->paused = true;
+			continue;
+		}
+
 
 		// If anything else, we set the romname to this.
 		romname = argv[i];

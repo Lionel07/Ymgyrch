@@ -84,6 +84,8 @@ private:
 	
 	bool flag_ime = false;
 	bool firstTimeSetup = false;
+	uint8_t lastInstructionLength;
+	bool justJumped = false;
 public:
 
 	explicit CCpu_LR35902(CSystem * sys);

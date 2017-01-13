@@ -22,18 +22,23 @@ void CCpu_LR35902::op_cp_ ##REGA (CCpu_LR35902 * cpu) {cpu->cp(cpu->regs.REGA##)
 
 #define LR35902CPU_DEF_INC_N(REGA) \
 void CCpu_LR35902::op_inc_ ##REGA (CCpu_LR35902 * cpu) {\
-	if (sizeof(cpu->regs.REGA##) == 1) {\
-		cpu->regs.REGA## = (uint8_t)cpu->inc(cpu->regs.REGA##);\
-	}\
-	else {\
-		cpu->regs.REGA## = cpu->inc(cpu->regs.REGA##);\
-	}}
-
-#define LR35902CPU_DEF_DEC_N(REGA) \
-void CCpu_LR35902::op_dec_ ##REGA (CCpu_LR35902 * cpu) { \
-	cpu->regs.REGA## = cpu->dec(cpu->regs.REGA##); \
+	cpu->regs.REGA## = (cpu->inc(cpu->regs.REGA##) & 0x00FF);\
 }
 
+#define LR35902CPU_DEF_DEC_N(REGA) \
+void CCpu_LR35902::op_dec_ ##REGA (CCpu_LR35902 * cpu) {\
+	cpu->regs.REGA## = (cpu->dec(cpu->regs.REGA##) & 0x00FF);\
+}
+
+#define LR35902CPU_DEF_INC_NN(REGA) \
+void CCpu_LR35902::op_inc_ ##REGA (CCpu_LR35902 * cpu) {\
+	cpu->regs.REGA## = (cpu->inc(cpu->regs.REGA##));\
+}
+
+#define LR35902CPU_DEF_DEC_NN(REGA) \
+void CCpu_LR35902::op_dec_ ##REGA (CCpu_LR35902 * cpu) {\
+	cpu->regs.REGA## = (cpu->dec(cpu->regs.REGA##));\
+}
 
 void CCpu_LR35902::op_reserved(CCpu_LR35902 * cpu) {
 	g_log->Log(cpu->getName().c_str(), "Executed reserved instruction: 0x%X. Halting.", cpu->next_opcode);
@@ -49,33 +54,39 @@ void CCpu_LR35902::op_nop(CCpu_LR35902 * cpu) {
 void CCpu_LR35902::op_jp_nn(CCpu_LR35902 * cpu, uint16_t operand) {
 	cpu->regs.pc = operand;
 	cpu->regs.m += 1;
+	cpu->justJumped = true;
 }
 
 void CCpu_LR35902::op_jr_n(CCpu_LR35902 * cpu, uint8_t operand) {
 	cpu->regs.pc += (signed char)operand;
+	cpu->justJumped = true;
 }
 
 void CCpu_LR35902::op_jr_z_n(CCpu_LR35902 * cpu, uint8_t operand) {
 	if ((cpu->regs.f & FLAGS_ZERO)) {
 		cpu->regs.pc += (signed char)operand;
+		cpu->justJumped = true;
 	}
 }
 
 void CCpu_LR35902::op_jr_c_n(CCpu_LR35902 * cpu, uint8_t operand) {
 	if ((cpu->regs.f & FLAGS_CARRY)) {
 		cpu->regs.pc += (signed char)operand;
+		cpu->justJumped = true;
 	}
 }
 
 void CCpu_LR35902::op_jr_nz_n(CCpu_LR35902 * cpu, uint8_t operand) {
 	if (!(cpu->regs.f & FLAGS_ZERO)) {
 		cpu->regs.pc += (signed char)operand;
+		cpu->justJumped = true;
 	}
 }
 
 void CCpu_LR35902::op_jr_nc_n(CCpu_LR35902 * cpu, uint8_t operand) {
 	if (!(cpu->regs.f & FLAGS_CARRY)) {
 		cpu->regs.pc += (signed char)operand;
+		cpu->justJumped = true;
 	}
 }
 
@@ -194,15 +205,15 @@ LR35902CPU_DEF_DEC_N(e)
 LR35902CPU_DEF_DEC_N(h)
 LR35902CPU_DEF_DEC_N(l)
 
-LR35902CPU_DEF_INC_N(bc)
-LR35902CPU_DEF_INC_N(de)
-LR35902CPU_DEF_INC_N(hl)
-LR35902CPU_DEF_INC_N(sp)
+LR35902CPU_DEF_INC_NN(bc)
+LR35902CPU_DEF_INC_NN(de)
+LR35902CPU_DEF_INC_NN(hl)
+LR35902CPU_DEF_INC_NN(sp)
 
-LR35902CPU_DEF_DEC_N(bc)
-LR35902CPU_DEF_DEC_N(de)
-LR35902CPU_DEF_DEC_N(hl)
-LR35902CPU_DEF_DEC_N(sp)
+LR35902CPU_DEF_DEC_NN(bc)
+LR35902CPU_DEF_DEC_NN(de)
+LR35902CPU_DEF_DEC_NN(hl)
+LR35902CPU_DEF_DEC_NN(sp)
 
 void CCpu_LR35902::op_di(CCpu_LR35902 * cpu) {
 	cpu->sys->mem.WriteByte(0xFFFF, 0);
@@ -219,6 +230,6 @@ void CCpu_LR35902::op_ldh_n_a(CCpu_LR35902 * cpu, uint8_t operand) {
 
 void CCpu_LR35902::op_ldh_a_n(CCpu_LR35902 * cpu, uint8_t operand) {
 	uint64_t address = cpu->sys->mem.ReadShort(0xFF00 + operand);
-	cpu->regs.a = cpu->sys->mem.ReadShort(address);
+	cpu->regs.a = cpu->sys->mem.ReadByte(address);
 }
 
