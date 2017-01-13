@@ -3,9 +3,11 @@
 #include <system.h>
 #include <memory.h>
 
-class CCpu_6502 : public CCpu {
+/*! The 6502 CPU */
+class CPU_6502 : public Cpu {
 public:
-	explicit CCpu_6502(CSystem * sys);
+	/// Create a new 6502
+	explicit CPU_6502(EmuSystem * sys);
 	void Init();
 	void Tick();
 

@@ -3,44 +3,44 @@
 #include <log.h>
 #include <mem/ram.h>
 #include <mem/mirror_ram.h>
-CSys_Chip8::CSys_Chip8() {
+System_Chip8::System_Chip8() {
 	this->name = "Chip 8";
 }
 
-void CSys_Chip8::Init() {
-	cpu.push_back(new CCpu_Chip8(this));
+void System_Chip8::Init() {
+	cpu.push_back(new CPU_Chip8(this));
 
-	CMem_RAM * memoryspace = new CMem_RAM(0x1000, "WRAM0");
+	Memory_RAM * memoryspace = new Memory_RAM(0x1000, "WRAM0");
 	memoryspace->littleEndian = true;
 	mem.Map(memoryspace, 0);
 	cpu[0]->Init();
 	g_log->Log("CHIP8", "Initialised");
 }
 
-void CSys_Chip8::Start()
+void System_Chip8::Start()
 {
 	isActive = true;
 }
 
-void CSys_Chip8::Stop()
+void System_Chip8::Stop()
 {
 	isActive = false;
 }
 
-void CSys_Chip8::Tick() {
-	for each (CCpu * processor in cpu) {
+void System_Chip8::Tick() {
+	for each (Cpu * processor in cpu) {
 		processor->Tick();
 	}
 }
 
-void CSys_Chip8::Reset()
+void System_Chip8::Reset()
 {
 	cpu.clear();
 	Init();
 }
 
 
-void CSys_Chip8::LoadFile(std::string path) {
+void System_Chip8::LoadFile(std::string path) {
 	g_log->Log("CHIP8", "Loading ROM {}", path);
 
 	FILE* rom = fopen(path.c_str(), "rb");
@@ -56,7 +56,7 @@ void CSys_Chip8::LoadFile(std::string path) {
 		{
 			fsize = 0xE00;
 		}
-		CMem_RAM * memory = (CMem_RAM*)mem.GetDeviceForAddress(0x0)->dev;
+		Memory_RAM * memory = (Memory_RAM*)mem.GetDeviceForAddress(0x0)->dev;
 		memory->LoadData(cartbuffer, fsize, 0x200);
 		fclose(rom);
 	}

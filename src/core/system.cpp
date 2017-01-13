@@ -1,30 +1,30 @@
 #include <system.h>
 
-void CSystem::Init()
+void EmuSystem::Init()
 {
 	
 }
 
-void CSystem::Start()
+void EmuSystem::Start()
 {
 	isActive = true;
 }
 
-void CSystem::Stop()
+void EmuSystem::Stop()
 {
 	isActive = false;
 }
 
-void CSystem::Reset()
+void EmuSystem::Reset()
 {
 	Stop();
 }
 
-void CSystem::LoadFile(std::string path)
+void EmuSystem::LoadFile(std::string path)
 {
 }
 
-void CSystem::Tick()
+void EmuSystem::Tick()
 {
 	if (!isActive)
 	{
@@ -32,6 +32,6 @@ void CSystem::Tick()
 	}
 }
 
-CSystem::~CSystem()
+EmuSystem::~EmuSystem()
 {
 }

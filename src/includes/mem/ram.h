@@ -1,15 +1,20 @@
 #pragma once
 #include <memory.h>
-class CMem_RAM : public CMemory {
+
+
+/*! Generic RAM */
+class Memory_RAM : public Memory {
 private:
 	uint8_t * memory = NULL;
 	uint64_t mem_size = 0;
 protected:
-	CMem_RAM();
+	Memory_RAM();
 public:
-	explicit CMem_RAM(uint64_t size);
-	CMem_RAM(uint64_t size, std::string name);
-	~CMem_RAM();
+	/// Creates a RAM device of size bytes
+	explicit Memory_RAM(uint64_t size);
+	/// Creates a RAM device of size bytes, with a name.
+	Memory_RAM(uint64_t size, std::string name);
+	~Memory_RAM();
 	virtual uint8_t  ReadByte(uint64_t address);
 	virtual uint16_t ReadShort(uint64_t address);
 	virtual uint32_t ReadWord(uint64_t address);
@@ -24,6 +29,7 @@ public:
 
 	void LoadData(uint8_t * buffer, uint64_t sz);
 
+	/// Load data at an offset. Used for partial patching.
 	void LoadData(uint8_t * buffer, uint64_t sz, uint64_t offset);
 
 };

@@ -1,9 +1,10 @@
 #pragma once
 #include <system.h>
 
-class CSys_NES : public CSystem {
+/*! A Nintendo Entertainment System */
+class System_Nes : public EmuSystem {
 public:
-	CSys_NES();
+	System_Nes();
 	void Init();
 	void Start();
 	void Stop();

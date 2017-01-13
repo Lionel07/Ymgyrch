@@ -4,9 +4,9 @@
 #include <memory.h>
 #include <stdint.h>
 
-#define OP_0(name) static void op_##name (CCpu_LR35902 * cpu);
-#define OP_1(name) static void op_##name (CCpu_LR35902 * cpu,  uint8_t operand);
-#define OP_2(name) static void op_##name (CCpu_LR35902 * cpu,  uint16_t operand);
+#define OP_0(name) static void op_##name (CPU_LR35902 * cpu);
+#define OP_1(name) static void op_##name (CPU_LR35902 * cpu,  uint8_t operand);
+#define OP_2(name) static void op_##name (CPU_LR35902 * cpu,  uint16_t operand);
 
 #define FLAGS_ZERO (1 << 7)
 #define FLAGS_NEGATIVE (1 << 6)
@@ -22,7 +22,9 @@
 #define FLAGS_SET(x) (regs.f |= (x))
 #define FLAGS_CLEAR(x) (regs.f &= ~(x))
 
-class CCpu_LR35902 : public CCpu {
+
+/*! The CPU for the Gameboy */
+class CPU_LR35902 : public Cpu {
 private:
 
 	typedef struct registers {
@@ -88,22 +90,35 @@ private:
 	bool justJumped = false;
 public:
 
-	explicit CCpu_LR35902(CSystem * sys);
+	/// Constructor
+	explicit CPU_LR35902(EmuSystem * sys);
+	/// Teaches the CPU all opcodes
 	void TeachInstructions();
 	void Init();
 	void Tick();
 	void PrintRegs();
 	virtual std::vector<std::string> GetRegStrings();
-	char * DisassembleInstruction(uint16_t pc);
+
+	/// Dissassembles the instruction at addr
+	char * DisassembleInstruction(uint16_t addr);
+	/// Gets the next Opcode
 	void FetchNext();
 
 	// Operations
+
+	/// Perform a xor operation
 	void xor(uint8_t num);
+	/// Perform a reset operation
 	void rst(uint8_t num);
+	/// Perform a compare operation
 	void cp(uint16_t value);
+	/// Perform an increment operation
 	uint16_t inc(uint16_t num);
+	/// Perform a decrement operation
 	uint16_t dec(uint16_t num);
 	
+
+	/// @cond OPCODES
 
 	// Instructions declared here
 	OP_0(nop)
@@ -212,7 +227,7 @@ public:
 	OP_0(cp_e)
 	OP_0(cp_h)
 	OP_0(cp_l)
-	static void op_cp_n(CCpu_LR35902 * cpu, uint8_t opcode);
+	static void op_cp_n(CPU_LR35902 * cpu, uint8_t opcode);
 	// INC + DEC
 	OP_0(inc_a)
 	OP_0(inc_b)
@@ -236,4 +251,5 @@ public:
 	OP_0(dec_de)
 	OP_0(dec_hl)
 	OP_0(dec_sp)
+	/// @endcond
 };

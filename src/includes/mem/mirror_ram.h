@@ -1,13 +1,18 @@
 #pragma once
 #include <memory.h>
 #include <mem/ram.h>
-class CMem_MirrorRAM : public CMemory {
+
+
+/*! RAM that mirrors another device */
+class Memory_MirrorRAM : public Memory {
 private:
 	uint64_t mem_size = 0;
-	CMemory * mirror;
+	Memory * mirror;
 public:
-	CMem_MirrorRAM(CMemory * mirror, std::string name);
-	CMem_MirrorRAM(CMemory * mirror, std::string name, uint64_t memsz);
+	/// Creates a Mirror device that mirrors mirror.
+	Memory_MirrorRAM(Memory * mirror, std::string name);
+	/// Creates a Mirror device that mirrors mirror, up to memsz.
+	Memory_MirrorRAM(Memory * mirror, std::string name, uint64_t memsz);
 
 	uint8_t  ReadByte(uint64_t address);
 	uint16_t ReadShort(uint64_t address);

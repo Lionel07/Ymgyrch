@@ -1,62 +1,62 @@
 #include <cpu.h>
 #include <string>
 
-CCpu::CCpu(CSystem * sys)
+Cpu::Cpu(EmuSystem * sys)
 {
 	this->sys = sys;
 	setName("CPU?");
 }
 
 
-CCpu::~CCpu()
+Cpu::~Cpu()
 {
 
 }
 
-bool CCpu::cpuActive() {
+bool Cpu::cpuActive() {
 	return isActive;
 }
 
-void CCpu::setName(std::string name)
+void Cpu::setName(std::string name)
 {
 	this->name = name;
 }
 
-std::string CCpu::getName()
+std::string Cpu::getName()
 {
 	return this->name;
 }
 
-void CCpu::Init()
+void Cpu::Init()
 {
 
 }
 
-void CCpu::Start()
+void Cpu::Start()
 {
 	isActive = true;
 }
 
-void CCpu::Stop()
+void Cpu::Stop()
 {
 	isActive = false;
 }
 
-void CCpu::Tick()
+void Cpu::Tick()
 {
 	if (!isActive) { return; }
 }
 
-void CCpu::Reset()
+void Cpu::Reset()
 {
 	Stop();
 }
 
-void CCpu::PrintRegs()
+void Cpu::PrintRegs()
 {
 }
 
-std::vector<std::string> CCpu::GetRegStrings()
+std::vector<std::string> Cpu::GetRegStrings()
 {
 	return std::vector<std::string>();
 }

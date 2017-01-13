@@ -5,7 +5,7 @@
 #include <libfmt/fmt/format.h>
 #include "tui.h"
 
-CSystem * LoadSystem(enum Systems sys);
+EmuSystem * LoadSystem(enum Systems sys);
 Systems toLoad;
 char * romname;
 
@@ -66,7 +66,7 @@ void parseCmdline(char argc, char * argv[]) {
 int main(char argc, char * argv[]) {
 	g_log = new Logger();
 	g_log->bufferOutput = true;
-	g_config = new CConfig();
+	g_config = new EmuConfig();
 	g_tui = new TextUI();
 	g_tui->Init();
 

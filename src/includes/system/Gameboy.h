@@ -1,9 +1,11 @@
 #pragma once
 #include <system.h>
 
-class CSys_Gameboy : public CSystem {
+
+/*! A Gameboy */
+class System_Gameboy : public EmuSystem {
 public:
-	CSys_Gameboy();
+	System_Gameboy();
 	void Init();
 	void Start();
 	void Stop();

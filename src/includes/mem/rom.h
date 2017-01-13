@@ -1,14 +1,19 @@
 #pragma once
 #include <memory.h>
 #include <mem/ram.h>
-class CMem_ROM : public CMem_RAM {
+
+/*! Generic ROM */
+class Memory_ROM : public Memory_RAM {
 private:
 	uint8_t * memory;
 	uint64_t mem_size = 0;
 public:
-	explicit CMem_ROM(uint64_t size);
-	~CMem_ROM();
-	CMem_ROM(uint64_t size, std::string name);
+	/// Creates a ROM device of size bytes
+	explicit Memory_ROM(uint64_t size);
+	/// Creates a RAM device of size bytes, with a name.
+	Memory_ROM(uint64_t size, std::string name);
+	~Memory_ROM();
+	
 	uint8_t ReadByte(uint64_t address);
 	uint16_t ReadShort(uint64_t address);
 	uint32_t ReadWord(uint64_t address);

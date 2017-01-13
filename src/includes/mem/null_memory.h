@@ -1,11 +1,15 @@
 #pragma once
 #include <memory.h>
-class CMem_Null : public CMemory {
+
+/*! Empty Memory */
+class Memory_MappedNull : public Memory {
 private:
 	uint64_t mem_size = 0;
 public:
-	explicit CMem_Null(uint64_t size);
-	explicit CMem_Null(uint64_t size, std::string name);
+	/// Creates a Null device of size size
+	explicit Memory_MappedNull(uint64_t size);
+	/// Creates a Null device of size size, with a name.
+	explicit Memory_MappedNull(uint64_t size, std::string name);
 
 	uint8_t  ReadByte(uint64_t address);
 	uint16_t ReadShort(uint64_t address);

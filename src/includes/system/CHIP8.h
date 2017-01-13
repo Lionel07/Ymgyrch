@@ -1,9 +1,11 @@
 #pragma once
 #include <system.h>
 
-class CSys_Chip8 : public CSystem {
+/*! A Chip8 (not SCHIP) */
+
+class System_Chip8 : public EmuSystem {
 public:
-	CSys_Chip8();
+	System_Chip8();
 	void Init();
 	void Start();
 	void Stop();

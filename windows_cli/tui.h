@@ -1,5 +1,6 @@
 #pragma once
 
+/*! The Text UI */
 class TextUI {
 private:
 	int updates = 0;
@@ -13,15 +14,24 @@ private:
 	bool do_debug = true;
 
 public:
+	/// Constructor
 	TextUI();
+	/// Is the core paused
 	bool paused = false;
+	/// True only if we're stepping one instruction
 	bool stepping = false;
+	/// Setup the TUI
 	void Init();
+	/// Runs every frame
 	void Update();
+	/// Processes keyboard input every frame
 	void ProcessInput();
 	
+	/// Draw the log
 	void DrawLog();
+	/// Draw the Debugger
 	void DrawDebugger();
+	/// Draw the border of the window
 	void DrawFrame();
 };
 

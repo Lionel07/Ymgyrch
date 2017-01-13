@@ -1,27 +1,27 @@
 #include <memcontroller.h>
 #include <log.h>
-CMemController::CMemController()
+MemoryController::MemoryController()
 {
 
 }
 
-CMemController::CMemController(uint64_t address_space)
+MemoryController::MemoryController(uint64_t address_space)
 {
 	SetAddressSpace(address_space);
 }
 
-CMemController::~CMemController()
+MemoryController::~MemoryController()
 {
 	// Delete every device in attached_devices
 	// Delete every mapping in mappings
 }
 
-void CMemController::SetAddressSpace(uint64_t address_space)
+void MemoryController::SetAddressSpace(uint64_t address_space)
 {
 	this->address_space = address_space;
 }
 
-void CMemController::Map(CMemory * device, uint64_t start)
+void MemoryController::Map(Memory * device, uint64_t start)
 {
 	mem_map_t * mapping = new mem_map_t;
 	mapping->dev = device;
@@ -33,12 +33,12 @@ void CMemController::Map(CMemory * device, uint64_t start)
 
 }
 
-void CMemController::Unmap(CMemory * device)
+void MemoryController::Unmap(Memory * device)
 {
+	//TODO: Implement
 }
 
-mem_map_t * CMemController::GetDeviceForAddress(uint64_t address)
-{
+mem_map_t * MemoryController::GetDeviceForAddress(uint64_t address) {
 	for each (mem_map_t * dev in mappings)
 	{
 		if (address >= dev->start && address <= dev->end)
@@ -50,11 +50,11 @@ mem_map_t * CMemController::GetDeviceForAddress(uint64_t address)
 	return nullptr;
 }
 
-uint64_t CMemController::TranslateAddress(mem_map_t * dev, uint64_t address) {
+uint64_t MemoryController::TranslateAddress(mem_map_t * dev, uint64_t address) {
 	return address - dev->start;
 }
 
-uint8_t CMemController::ReadByte(uint64_t address)
+uint8_t MemoryController::ReadByte(uint64_t address)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -69,7 +69,7 @@ uint8_t CMemController::ReadByte(uint64_t address)
 	}
 }
 
-uint16_t CMemController::ReadShort(uint64_t address)
+uint16_t MemoryController::ReadShort(uint64_t address)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -83,7 +83,7 @@ uint16_t CMemController::ReadShort(uint64_t address)
 	}
 }
 
-uint32_t CMemController::ReadWord(uint64_t address)
+uint32_t MemoryController::ReadWord(uint64_t address)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -97,7 +97,7 @@ uint32_t CMemController::ReadWord(uint64_t address)
 	}
 }
 
-uint64_t CMemController::ReadLong(uint64_t address)
+uint64_t MemoryController::ReadLong(uint64_t address)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -111,7 +111,7 @@ uint64_t CMemController::ReadLong(uint64_t address)
 	}
 }
 
-void CMemController::WriteByte(uint64_t address, uint8_t data)
+void MemoryController::WriteByte(uint64_t address, uint8_t data)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -120,7 +120,7 @@ void CMemController::WriteByte(uint64_t address, uint8_t data)
 	}
 }
 
-void CMemController::WriteShort(uint64_t address, uint16_t data)
+void MemoryController::WriteShort(uint64_t address, uint16_t data)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -129,7 +129,7 @@ void CMemController::WriteShort(uint64_t address, uint16_t data)
 	}
 }
 
-void CMemController::WriteWord(uint64_t address, uint32_t data)
+void MemoryController::WriteWord(uint64_t address, uint32_t data)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -138,7 +138,7 @@ void CMemController::WriteWord(uint64_t address, uint32_t data)
 	}
 }
 
-void CMemController::WriteLong(uint64_t address, uint64_t data)
+void MemoryController::WriteLong(uint64_t address, uint64_t data)
 {
 	mem_map_t * dev = GetDeviceForAddress(address);
 	if (dev != nullptr)
@@ -147,7 +147,7 @@ void CMemController::WriteLong(uint64_t address, uint64_t data)
 	}
 }
 
-void CMemController::DebugPrintMemoryMap()
+void MemoryController::DebugPrintMemoryMap()
 {
 	g_log->Log("MEM", "Memory Map:");
 

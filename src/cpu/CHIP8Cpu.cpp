@@ -1,18 +1,18 @@
 #include <cpu/CHIP8Cpu.h>
 #include <log.h>
 
-CCpu_Chip8::CCpu_Chip8(CSystem * sys) : CCpu(sys)
+CPU_Chip8::CPU_Chip8(EmuSystem * sys) : Cpu(sys)
 {
 	setName("CPU0");
 	g_log->Log(getName().c_str(), "Initialised");
 }
 
-void CCpu_Chip8::Init() {
+void CPU_Chip8::Init() {
 	regs.pc = 0x200;
 }
 
 
-void CCpu_Chip8::DissassembleAndLog(uint16_t opcode) {
+void CPU_Chip8::DissassembleAndLog(uint16_t opcode) {
 	std::string dissassembly;
 	uint8_t reg = (opcode & 0x0F00) >> 8;
 	switch (opcode & 0xF000)
@@ -34,7 +34,7 @@ void CCpu_Chip8::DissassembleAndLog(uint16_t opcode) {
 	g_log->Debug(getName().c_str(), "0x{0:03x}: ( 0x{2:04x} ) {1:s}", regs.pc, dissassembly, opcode);
 }
 
-void CCpu_Chip8::Tick() {
+void CPU_Chip8::Tick() {
 	uint16_t opcode = sys->mem.ReadShort(regs.pc);
 	//uint8_t operand_n;
 	uint8_t reg = (opcode & 0x0F00) >> 8;
@@ -71,7 +71,7 @@ void CCpu_Chip8::Tick() {
 	DissassembleAndLog(opcode);
 }
 
-std::vector<std::string> CCpu_Chip8::GetRegStrings()
+std::vector<std::string> CPU_Chip8::GetRegStrings()
 {
 	std::vector<std::string> registers;
 	for (int i = 0; i < 16; i++)

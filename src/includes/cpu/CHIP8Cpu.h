@@ -3,7 +3,8 @@
 #include <system.h>
 #include <memory.h>
 
-class CCpu_Chip8 : public CCpu {
+/*! The Chip8's CPU */
+class CPU_Chip8 : public Cpu {
 private:
 	typedef struct registers {
 		uint8_t v[16];
@@ -17,8 +18,10 @@ private:
 	regs_t regs;
 
 public:
-	explicit CCpu_Chip8(CSystem * sys);
+	/// Creates a new Chip8 CPU
+	explicit CPU_Chip8(EmuSystem * sys);
 	void Init();
+	/// Logs the current instruction to the debug log
 	void DissassembleAndLog(uint16_t opcode);
 	void Tick();
 	virtual std::vector<std::string> GetRegStrings();

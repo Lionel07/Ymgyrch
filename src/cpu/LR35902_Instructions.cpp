@@ -1,89 +1,91 @@
 #include <cpu/LR35902.h>
 #include <log.h>
 
+/// @cond OPCODES
+
 #define LR35902CPU_DEF_LD(OPA,OPB) \
-void CCpu_LR35902::op_ld_ ## OPA ## _ ## OPB (CCpu_LR35902 * cpu) {cpu->regs.OPA## = cpu->regs.OPB##;}
+void CPU_LR35902::op_ld_ ## OPA ## _ ## OPB (CPU_LR35902 * cpu) {cpu->regs.OPA## = cpu->regs.OPB##;}
 
 #define LR35902CPU_DEF_LD_N(OPA) \
-void CCpu_LR35902::op_ld_ ## OPA ##_n (CCpu_LR35902 * cpu, uint8_t operand) { cpu->regs.OPA## = operand;}
+void CPU_LR35902::op_ld_ ## OPA ##_n (CPU_LR35902 * cpu, uint8_t operand) { cpu->regs.OPA## = operand;}
 
 #define LR35902CPU_DEF_LD_NN(OPA) \
-void CCpu_LR35902::op_ld_ ## OPA ##_nn (CCpu_LR35902 * cpu, uint16_t operand) { cpu->regs.OPA## = operand;}
+void CPU_LR35902::op_ld_ ## OPA ##_nn (CPU_LR35902 * cpu, uint16_t operand) { cpu->regs.OPA## = operand;}
 
 #define LR35902CPU_DEF_RST(num) \
-void CCpu_LR35902::op_rst##num(CCpu_LR35902 * cpu) {cpu->rst(0x##num);}
+void CPU_LR35902::op_rst##num(CPU_LR35902 * cpu) {cpu->rst(0x##num);}
 
 #define LR35902CPU_DEF_XOR_REGN(REGA) \
-void CCpu_LR35902::op_xor_ ##REGA (CCpu_LR35902 * cpu) {cpu->xor(cpu->regs.REGA##);}
+void CPU_LR35902::op_xor_ ##REGA (CPU_LR35902 * cpu) {cpu->xor(cpu->regs.REGA##);}
 
 #define LR35902CPU_DEF_CP_REGN(REGA) \
-void CCpu_LR35902::op_cp_ ##REGA (CCpu_LR35902 * cpu) {cpu->cp(cpu->regs.REGA##);}
+void CPU_LR35902::op_cp_ ##REGA (CPU_LR35902 * cpu) {cpu->cp(cpu->regs.REGA##);}
 
 
 #define LR35902CPU_DEF_INC_N(REGA) \
-void CCpu_LR35902::op_inc_ ##REGA (CCpu_LR35902 * cpu) {\
+void CPU_LR35902::op_inc_ ##REGA (CPU_LR35902 * cpu) {\
 	cpu->regs.REGA## = (cpu->inc(cpu->regs.REGA##) & 0x00FF);\
 }
 
 #define LR35902CPU_DEF_DEC_N(REGA) \
-void CCpu_LR35902::op_dec_ ##REGA (CCpu_LR35902 * cpu) {\
+void CPU_LR35902::op_dec_ ##REGA (CPU_LR35902 * cpu) {\
 	cpu->regs.REGA## = (cpu->dec(cpu->regs.REGA##) & 0x00FF);\
 }
 
 #define LR35902CPU_DEF_INC_NN(REGA) \
-void CCpu_LR35902::op_inc_ ##REGA (CCpu_LR35902 * cpu) {\
+void CPU_LR35902::op_inc_ ##REGA (CPU_LR35902 * cpu) {\
 	cpu->regs.REGA## = (cpu->inc(cpu->regs.REGA##));\
 }
 
 #define LR35902CPU_DEF_DEC_NN(REGA) \
-void CCpu_LR35902::op_dec_ ##REGA (CCpu_LR35902 * cpu) {\
+void CPU_LR35902::op_dec_ ##REGA (CPU_LR35902 * cpu) {\
 	cpu->regs.REGA## = (cpu->dec(cpu->regs.REGA##));\
 }
 
-void CCpu_LR35902::op_reserved(CCpu_LR35902 * cpu) {
+void CPU_LR35902::op_reserved(CPU_LR35902 * cpu) {
 	g_log->Log(cpu->getName().c_str(), "Executed reserved instruction: 0x%X. Halting.", cpu->next_opcode);
 	cpu->Stop();
 }
 
 
-void CCpu_LR35902::op_nop(CCpu_LR35902 * cpu) {
+void CPU_LR35902::op_nop(CPU_LR35902 * cpu) {
 	cpu->regs.m += 1;
 }
 
 
-void CCpu_LR35902::op_jp_nn(CCpu_LR35902 * cpu, uint16_t operand) {
+void CPU_LR35902::op_jp_nn(CPU_LR35902 * cpu, uint16_t operand) {
 	cpu->regs.pc = operand;
 	cpu->regs.m += 1;
 	cpu->justJumped = true;
 }
 
-void CCpu_LR35902::op_jr_n(CCpu_LR35902 * cpu, uint8_t operand) {
+void CPU_LR35902::op_jr_n(CPU_LR35902 * cpu, uint8_t operand) {
 	cpu->regs.pc += (signed char)operand;
 	cpu->justJumped = true;
 }
 
-void CCpu_LR35902::op_jr_z_n(CCpu_LR35902 * cpu, uint8_t operand) {
+void CPU_LR35902::op_jr_z_n(CPU_LR35902 * cpu, uint8_t operand) {
 	if ((cpu->regs.f & FLAGS_ZERO)) {
 		cpu->regs.pc += (signed char)operand;
 		cpu->justJumped = true;
 	}
 }
 
-void CCpu_LR35902::op_jr_c_n(CCpu_LR35902 * cpu, uint8_t operand) {
+void CPU_LR35902::op_jr_c_n(CPU_LR35902 * cpu, uint8_t operand) {
 	if ((cpu->regs.f & FLAGS_CARRY)) {
 		cpu->regs.pc += (signed char)operand;
 		cpu->justJumped = true;
 	}
 }
 
-void CCpu_LR35902::op_jr_nz_n(CCpu_LR35902 * cpu, uint8_t operand) {
+void CPU_LR35902::op_jr_nz_n(CPU_LR35902 * cpu, uint8_t operand) {
 	if (!(cpu->regs.f & FLAGS_ZERO)) {
 		cpu->regs.pc += (signed char)operand;
 		cpu->justJumped = true;
 	}
 }
 
-void CCpu_LR35902::op_jr_nc_n(CCpu_LR35902 * cpu, uint8_t operand) {
+void CPU_LR35902::op_jr_nc_n(CPU_LR35902 * cpu, uint8_t operand) {
 	if (!(cpu->regs.f & FLAGS_CARRY)) {
 		cpu->regs.pc += (signed char)operand;
 		cpu->justJumped = true;
@@ -142,7 +144,7 @@ LR35902CPU_DEF_LD(l, d)
 LR35902CPU_DEF_LD(l, e)
 LR35902CPU_DEF_LD(l, h)
 
-void CCpu_LR35902::op_ld_nn_a(CCpu_LR35902 * cpu, uint16_t operand) { cpu->sys->mem.WriteByte(operand, cpu->regs.a); }
+void CPU_LR35902::op_ld_nn_a(CPU_LR35902 * cpu, uint16_t operand) { cpu->sys->mem.WriteByte(operand, cpu->regs.a); }
 
 LR35902CPU_DEF_LD_NN(bc)
 LR35902CPU_DEF_LD_NN(de)
@@ -157,12 +159,12 @@ LR35902CPU_DEF_LD_N(e)
 LR35902CPU_DEF_LD_N(h)
 LR35902CPU_DEF_LD_N(l)
 
-void CCpu_LR35902::op_ldi_hlp_a(CCpu_LR35902 * cpu, uint16_t operand) {
+void CPU_LR35902::op_ldi_hlp_a(CPU_LR35902 * cpu, uint16_t operand) {
 	cpu->sys->mem.WriteShort(cpu->regs.hl, cpu->regs.a);
 	cpu->regs.hl++;
 }
 
-void CCpu_LR35902::op_ldd_hlp_a(CCpu_LR35902 * cpu, uint16_t operand) {
+void CPU_LR35902::op_ldd_hlp_a(CPU_LR35902 * cpu, uint16_t operand) {
 	cpu->sys->mem.WriteShort(cpu->regs.hl, cpu->regs.a);
 	cpu->regs.hl--;
 }
@@ -183,7 +185,7 @@ LR35902CPU_DEF_CP_REGN(e)
 LR35902CPU_DEF_CP_REGN(h)
 LR35902CPU_DEF_CP_REGN(l)
 
-void CCpu_LR35902::op_cp_n(CCpu_LR35902 * cpu, uint8_t opcode) { 
+void CPU_LR35902::op_cp_n(CPU_LR35902 * cpu, uint8_t opcode) { 
 	cpu->cp(opcode);
 
 }
@@ -215,21 +217,22 @@ LR35902CPU_DEF_DEC_NN(de)
 LR35902CPU_DEF_DEC_NN(hl)
 LR35902CPU_DEF_DEC_NN(sp)
 
-void CCpu_LR35902::op_di(CCpu_LR35902 * cpu) {
+void CPU_LR35902::op_di(CPU_LR35902 * cpu) {
 	cpu->sys->mem.WriteByte(0xFFFF, 0);
 }
 
-void CCpu_LR35902::op_ei(CCpu_LR35902 * cpu) {
+void CPU_LR35902::op_ei(CPU_LR35902 * cpu) {
 	cpu->sys->mem.WriteByte(0xFFFF, 1);
 }
 
-void CCpu_LR35902::op_ldh_n_a(CCpu_LR35902 * cpu, uint8_t operand) {
+void CPU_LR35902::op_ldh_n_a(CPU_LR35902 * cpu, uint8_t operand) {
 	uint64_t address = cpu->sys->mem.ReadShort(0xFF00 + operand);
 	cpu->sys->mem.WriteShort(address, cpu->regs.a);
 }
 
-void CCpu_LR35902::op_ldh_a_n(CCpu_LR35902 * cpu, uint8_t operand) {
+void CPU_LR35902::op_ldh_a_n(CPU_LR35902 * cpu, uint8_t operand) {
 	uint64_t address = cpu->sys->mem.ReadShort(0xFF00 + operand);
 	cpu->regs.a = cpu->sys->mem.ReadByte(address);
 }
 
+/// @endcond

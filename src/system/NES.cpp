@@ -3,16 +3,12 @@
 #include <log.h>
 #include <mem/ram.h>
 #include <mem/mirror_ram.h>
-CSys_NES::CSys_NES() {
+System_Nes::System_Nes() {
 	this->name = "Nintendo Entertainment System";
 }
 
-void CSys_NES::Init() {
-	CCpu * cpu0 = new CCpu_6502(this);
-//	CMemory * ram0 = new CMem_RAM(0x0800, "WRAM0");
-//	CMemory * mram0 = new CMem_MirrorRAM(ram0, "MRAM0");
-//	CMemory * mram1 = new CMem_MirrorRAM(ram0, "MRAM1");
-//	CMemory * mram2 = new CMem_MirrorRAM(ram0, "MRAM2");
+void System_Nes::Init() {
+	Cpu * cpu0 = new CPU_6502(this);
 
 	cpu.push_back(cpu0);
 	cpu0->Init();
@@ -21,23 +17,23 @@ void CSys_NES::Init() {
 	g_log->Log("NES", "Initialised");
 }
 
-void CSys_NES::Start()
+void System_Nes::Start()
 {
 	isActive = true;
 }
 
-void CSys_NES::Stop()
+void System_Nes::Stop()
 {
 	isActive = false;
 }
 
-void CSys_NES::Tick() {
-	for each (CCpu * processor in cpu) {
+void System_Nes::Tick() {
+	for each (Cpu * processor in cpu) {
 		processor->Tick();
 	}
 }
 
-void CSys_NES::Reset()
+void System_Nes::Reset()
 {
 	cpu.clear();
 	Init();

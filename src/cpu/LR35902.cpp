@@ -4,12 +4,12 @@
 #include <libfmt/fmt/format.h>
 #include <ymgyrch.h>
 
-#define LR35902CPU_TEACH(num, arglength, name, qqqq) instructions[##num] = {##name, ##arglength, &CCpu_LR35902::op_##qqqq}
+#define LR35902CPU_TEACH(num, arglength, name, qqqq) instructions[##num] = {##name, ##arglength, &CPU_LR35902::op_##qqqq}
 #define LR35902CPU_TEACH_LD_N(num, reg0, reg1) LR35902CPU_TEACH(num, 0, "ld " #reg0 ", " #reg1, ld_## reg0##_##reg1)
 #define LR35902CPU_TEACH_LD_NL(num, reg0) LR35902CPU_TEACH(num, 1, "ld " #reg0 ", 0x%02x" , ld_## reg0##_n)
 #define LR35902CPU_TEACH_LD_NNL(num, reg0) LR35902CPU_TEACH(num, 2, "ld " #reg0 ", 0x%04x" , ld_## reg0##_nn)
 
-CCpu_LR35902::CCpu_LR35902(CSystem * sys) : CCpu(sys)
+CPU_LR35902::CPU_LR35902(EmuSystem * sys) : Cpu(sys)
 {
 	setName("CPU0");
 	g_log->Log(getName().c_str(), "Initialised");
@@ -18,7 +18,7 @@ CCpu_LR35902::CCpu_LR35902(CSystem * sys) : CCpu(sys)
 	regs = {};
 }
 
-void CCpu_LR35902::TeachInstructions() {
+void CPU_LR35902::TeachInstructions() {
 	if (firstTimeSetup == true) { return; }
 	// Here, we setup our instructions
 	// Unique instructions
@@ -179,7 +179,7 @@ void CCpu_LR35902::TeachInstructions() {
 	firstTimeSetup = true;
 }
 
-void CCpu_LR35902::Init() {
+void CPU_LR35902::Init() {
 	regs.a = 0x01;
 	regs.f = 0xB0;
 	regs.bc = 0x0013;
@@ -193,16 +193,16 @@ void CCpu_LR35902::Init() {
 	TeachInstructions();
 }
 
-void CCpu_LR35902::Tick() {
+void CPU_LR35902::Tick() {
 	if (!this->cpuActive()) { return; }
 	FetchNext();
 }
 
-void CCpu_LR35902::PrintRegs() {
+void CPU_LR35902::PrintRegs() {
 
 }
 
-std::vector<std::string> CCpu_LR35902::GetRegStrings()
+std::vector<std::string> CPU_LR35902::GetRegStrings()
 {
 	std::vector<std::string> registers;
 	std::deque<std::string>  dis;
@@ -293,7 +293,7 @@ std::vector<std::string> CCpu_LR35902::GetRegStrings()
 	return registers;
 }
 
-char * CCpu_LR35902::DisassembleInstruction(uint16_t pc) {
+char * CPU_LR35902::DisassembleInstruction(uint16_t pc) {
 	char instructionDis[256];
 	char *instructionDissassembly = instructionDis;
 
@@ -330,7 +330,7 @@ char * CCpu_LR35902::DisassembleInstruction(uint16_t pc) {
 	return dis;
 }
 
-void CCpu_LR35902::FetchNext()
+void CPU_LR35902::FetchNext()
 {
 	uint8_t operand8;
 	uint16_t operand16;
@@ -350,34 +350,34 @@ void CCpu_LR35902::FetchNext()
 	{
 	default:
 	case 0:
-		((void(*)(CCpu_LR35902*))instructions[next_opcode].run)(this);
+		((void(*)(CPU_LR35902*))instructions[next_opcode].run)(this);
 		break;
 	case 1:
 		operand8 = sys->mem.ReadByte(regs.pc - 1);
-		((void(*)(CCpu_LR35902*, uint8_t))instructions[next_opcode].run)(this, operand8);
+		((void(*)(CPU_LR35902*, uint8_t))instructions[next_opcode].run)(this, operand8);
 		break;
 	case 2:
 		operand16 = sys->mem.ReadShort(regs.pc - 2);
-		((void(*)(CCpu_LR35902*, uint16_t))instructions[next_opcode].run)(this, operand16);
+		((void(*)(CPU_LR35902*, uint16_t))instructions[next_opcode].run)(this, operand16);
 		break;
 	}
 }
 
 // Instructions
-void CCpu_LR35902::xor (uint8_t num) {
+void CPU_LR35902::xor (uint8_t num) {
 	regs.a ^= num;
 	if (regs.a) FLAGS_CLEAR(FLAGS_ZERO);
 	else FLAGS_SET(FLAGS_ZERO);
 	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
 }
 
-void CCpu_LR35902::rst(uint8_t num) {
+void CPU_LR35902::rst(uint8_t num) {
 	regs.sp -= 2;
 	sys->mem.WriteWord(regs.sp, regs.pc);
 	regs.pc = num;
 }
 
-uint16_t CCpu_LR35902::inc(uint16_t value) {
+uint16_t CPU_LR35902::inc(uint16_t value) {
 	if ((value & 0x0f) == 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
 	else FLAGS_CLEAR(FLAGS_HALFCARRY);
 	value++;
@@ -387,7 +387,7 @@ uint16_t CCpu_LR35902::inc(uint16_t value) {
 	return value;
 }
 
-uint16_t CCpu_LR35902::dec(uint16_t value) {
+uint16_t CPU_LR35902::dec(uint16_t value) {
 	if (value & 0x0f) FLAGS_CLEAR(FLAGS_HALFCARRY);
 	else FLAGS_SET(FLAGS_HALFCARRY);
 	value--;
@@ -397,7 +397,7 @@ uint16_t CCpu_LR35902::dec(uint16_t value) {
 	return value;
 }
 
-void CCpu_LR35902::cp(uint16_t value) {
+void CPU_LR35902::cp(uint16_t value) {
 	FLAGS_SET(FLAGS_NEGATIVE);
 	char val = regs.a - value;
 	if (val == 0) FLAGS_SET(FLAGS_ZERO);

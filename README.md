@@ -1,4 +1,4 @@
-# Ymgyrch
+# Ymgyrch {#mainpage} 
 
 Ymgyrch is a multi system emulator.
 It emulates multiple systems using a common core.

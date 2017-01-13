@@ -6,22 +6,22 @@
 #include <mem/mirror_ram.h>
 #include <mem/null_memory.h>
 
-CSys_Gameboy::CSys_Gameboy() {
+System_Gameboy::System_Gameboy() {
 	this->name = "Gameboy";
 }
 
-void CSys_Gameboy::Init() {
-	CCpu * cpu0 = new CCpu_LR35902(this);
+void System_Gameboy::Init() {
+	Cpu * cpu0 = new CPU_LR35902(this);
 	cpu.push_back(cpu0);
 
 	mem.SetAddressSpace(0xFFFF);
 
-	CMem_RAM * wram0 = new CMem_RAM(0x2000, "WRAM0");
-	CMem_MirrorRAM * weram0 = new CMem_MirrorRAM(wram0,"ECHO0", 0x1E00);
-	CMem_Null * hires = new CMem_Null(0x60, "RESRV");
-	CMem_RAM * mmio0 = new CMem_RAM(0x80, "MMIO0");
-	CMem_RAM * hram0 = new CMem_RAM(0x7F, "HRAM0");
-	CMem_RAM * mintr = new CMem_RAM(0x01, "MINTR");
+	Memory_RAM * wram0 = new Memory_RAM(0x2000, "WRAM0");
+	Memory_MirrorRAM * weram0 = new Memory_MirrorRAM(wram0,"ECHO0", 0x1E00);
+	Memory_MappedNull * hires = new Memory_MappedNull(0x60, "RESRV");
+	Memory_RAM * mmio0 = new Memory_RAM(0x80, "MMIO0");
+	Memory_RAM * hram0 = new Memory_RAM(0x7F, "HRAM0");
+	Memory_RAM * mintr = new Memory_RAM(0x01, "MINTR");
 	wram0->littleEndian = false;
 	weram0->littleEndian = false;
 	hires->littleEndian = false;
@@ -37,25 +37,25 @@ void CSys_Gameboy::Init() {
 	
 }
 
-void CSys_Gameboy::Start() {
+void System_Gameboy::Start() {
 	isActive = true;
 	mem.DebugPrintMemoryMap();
 	g_log->Log("GB", "Starting!");
 }
 
-void CSys_Gameboy::Stop() {
+void System_Gameboy::Stop() {
 	isActive = false;
 }
 
-void CSys_Gameboy::Tick() {
+void System_Gameboy::Tick() {
 	if (!isActive) { return; }
-	for each (CCpu * processor in cpu) {
+	for each (Cpu * processor in cpu) {
 		processor->Tick();
 	}
 }
 
-void CSys_Gameboy::Reset() {
-	for each (CCpu * cur in cpu)
+void System_Gameboy::Reset() {
+	for each (Cpu * cur in cpu)
 	{
 		delete cur;
 	}
@@ -63,7 +63,7 @@ void CSys_Gameboy::Reset() {
 	Init();
 }
 
-void CSys_Gameboy::LoadFile(std::string path) {
+void System_Gameboy::LoadFile(std::string path) {
 	g_log->Log("GB", "Inserting Cart");
 
 	FILE* rom = fopen(path.c_str(), "rb");
@@ -85,7 +85,7 @@ void CSys_Gameboy::LoadFile(std::string path) {
 			char buffer[50];
 			sprintf(buffer, "CARTROM%d", romnum);
 
-			CMem_ROM * cartrom = new CMem_ROM(0x4000, buffer);
+			Memory_ROM * cartrom = new Memory_ROM(0x4000, buffer);
 			cartrom->littleEndian = false;
 			cartrom->LoadData(&cartbuffer[fsize - cart_size], 0x4000);
 
