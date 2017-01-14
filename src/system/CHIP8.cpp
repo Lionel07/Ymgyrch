@@ -15,6 +15,7 @@ void System_Chip8::Init() {
 	mem.Map(memoryspace, 0);
 	cpu[0]->Init();
 	g_log->Log("CHIP8", "Initialised");
+	memoryspace->LoadData(chip8_fontset, 80, 0);
 }
 
 void System_Chip8::Start()

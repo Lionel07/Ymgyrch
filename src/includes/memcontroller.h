@@ -28,6 +28,7 @@ public:
 	/// Maps device to start, to start + size
 	void Map(Memory * device, uint64_t start);
 	/// Unmaps device from the address space.
+	
 	void Unmap(Memory * device);
 
 	/// Get the memory mapping for a particular address.

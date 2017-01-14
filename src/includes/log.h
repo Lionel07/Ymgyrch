@@ -22,7 +22,8 @@ class Logger
 private:
 	void DoLog(std::string sys, std::string message);
 public:
-	/// Should we buffer output? (TODO: Move to Config)
+	/// Should we buffer output?
+	/// @todo Move to Config
 	bool bufferOutput = false;
 	/// Buffered output
 	std::deque<std::string> buffer;

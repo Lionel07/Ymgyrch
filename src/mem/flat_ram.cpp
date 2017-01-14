@@ -76,7 +76,7 @@ void Memory_RAM::WriteWord(uint64_t address, uint32_t data) {
 
 void Memory_RAM::WriteLong(uint64_t address, uint64_t data) {
 	if (address > mem_size) { return; }
-	//TODO: Implement
+	///@todo: Implement long support
 }
 
 uint64_t Memory_RAM::GetSize() {

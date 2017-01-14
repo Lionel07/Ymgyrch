@@ -10,4 +10,7 @@ public:
 	void Stop();
 	void Tick();
 	void Reset();
+	void LoadFile(std::string path);
+	/// Loads and maps an iNES rom
+	void LoadINESRom(FILE * rom);
 };

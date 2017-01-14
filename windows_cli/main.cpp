@@ -77,8 +77,9 @@ int main(char argc, char * argv[]) {
 
 	// Start running system
 	g_running_system->Init();
-	g_running_system->Start();
 	g_running_system->LoadFile(romname);
+	g_running_system->Start();
+	
 
 	while (g_running_system->isActive) {
 		if (!g_tui->paused)

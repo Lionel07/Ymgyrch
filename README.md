@@ -3,10 +3,10 @@
 Ymgyrch is a multi system emulator.
 It emulates multiple systems using a common core.
 
-
 ## Current systems
 * NES (Unfinished)
 * Gameboy (In progress)
+* Chip 8 (Unfinished)
 
 # Credits
 

@@ -6,7 +6,7 @@
 
 #define OP_0(name) static void op_##name (CPU_LR35902 * cpu);
 #define OP_1(name) static void op_##name (CPU_LR35902 * cpu,  uint8_t operand);
-#define OP_2(name) static void op_##name (CPU_LR35902 * cpu,  uint16_t operand);
+#define OP_2(name) static void op_##name (CPU_LR35902 * cpu,  uint16_t operand); 
 
 #define FLAGS_ZERO (1 << 7)
 #define FLAGS_NEGATIVE (1 << 6)

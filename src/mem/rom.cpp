@@ -59,7 +59,7 @@ uint64_t Memory_ROM::ReadLong(uint64_t address)
 	uint32_t b = ReadWord(address);
 	uint32_t a = ReadWord(address + 2);
 
-	return (uint64_t)((a << 16) | (b & 0xffffffff)); //Todo fix
+	return (uint64_t)((a << 16) | (b & 0xffffffff)); ///@todo Fix this so that it actually returns a proper 64 bit number
 }
 
 

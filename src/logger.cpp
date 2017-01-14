@@ -46,6 +46,6 @@ void Logger::Panic(std::string component, std::string format, fmt::ArgList args)
 
 void Logger::FlushBufferToX(int x)
 {
-	//TODO: Implement properly
+	///@todo Implement properly
 }
 

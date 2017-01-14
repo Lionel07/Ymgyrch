@@ -100,7 +100,7 @@ void System_Gameboy::LoadFile(std::string path) {
 	}
 	else
 	{
-		g_log->Log("GB", "Failed to open rom {0:s}", path.c_str());
+		g_log->Error("GB", "Failed to open rom {0:s}", path.c_str());
 		Stop();
 	}
 	

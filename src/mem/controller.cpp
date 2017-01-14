@@ -35,7 +35,7 @@ void MemoryController::Map(Memory * device, uint64_t start)
 
 void MemoryController::Unmap(Memory * device)
 {
-	//TODO: Implement
+	/// @todo Implement this
 }
 
 mem_map_t * MemoryController::GetDeviceForAddress(uint64_t address) {
@@ -155,7 +155,7 @@ void MemoryController::DebugPrintMemoryMap()
 	
 	for (uint64_t j = 0; j <= address_space; j += 0x0001)
 	{
-		for (size_t i = 0; i < mappings.size(); i += 1)
+		for (uint64_t i = 0; i < mappings.size(); i += 1)
 		{
 			if (mappings[i]->start == j)
 			{
