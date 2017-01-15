@@ -18,12 +18,12 @@ void TextUI::Init()
 	rlutil::setColor(rlutil::WHITE);
 	rlutil::setBackgroundColor(rlutil::BLACK);
 	rlutil::saveDefaultColor();
-	g_config->displayMode = g_config->TUI;
-	g_config->tui_cols = rlutil::tcols();
-	g_config->tui_rows = rlutil::trows();
+	g_config->emulator.displayMode = g_config->TUI;
+	g_config->tui.cols = rlutil::tcols();
+	g_config->tui.rows = rlutil::trows();
 
-	cache_col = g_config->tui_cols;
-	cache_row = g_config->tui_rows;
+	cache_col = g_config->tui.cols;
+	cache_row = g_config->tui.rows;
 }
 
 void TextUI::Update() {
@@ -33,7 +33,7 @@ void TextUI::Update() {
 		cache_logentry_last = g_log->buffer.size();
 		do_log = true;
 	}
-	if (g_config->realTimeDebug == true) { // If we're debugging
+	if (g_config->tui.showDebugger == true) { // If we're debugging
 
 		if (paused && stepping)
 		{
@@ -63,8 +63,9 @@ void TextUI::Update() {
 
 			cache_row = c_rows;
 			cache_col = c_cols;
-			g_config->tui_rows = cache_row;
-			g_config->tui_cols = cache_col;
+			g_config->tui.cols = cache_col;
+			g_config->tui.rows = cache_row;
+
 		}
 	}
 
@@ -84,7 +85,7 @@ void TextUI::ProcessInput()
 	{
 		if (input == '`') // Swap real time debugging on and off 
 		{
-			g_config->realTimeDebug = !g_config->realTimeDebug;
+			g_config->tui.showDebugger = !g_config->tui.showDebugger;
 			do_cls = true;
 			do_frame = true;
 			do_log = true;
@@ -95,8 +96,8 @@ void TextUI::ProcessInput()
 
 			cache_row = c_rows;
 			cache_col = c_cols;
-			g_config->tui_rows = cache_row;
-			g_config->tui_cols = cache_col;
+			g_config->tui.cols = cache_col;
+			g_config->tui.rows = cache_row;
 
 		}
 		if (input == 'p') // Pause
@@ -138,7 +139,7 @@ void TextUI::DrawDebugger()
 {
 	if (g_running_system == nullptr) { return; }
 	if (g_config == nullptr) { return; }
-	if (!g_config->realTimeDebug) {
+	if (!g_config->tui.showDebugger) {
 		rlutil::locate((rlutil::tcols() / 2) + (rlutil::tcols() / 8), 4);
 		fmt::print("Real Time Debugger Disabled");
 		return;

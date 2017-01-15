@@ -1,8 +1,9 @@
+#define RLUTIL_USE_ANSI
 #include <QFileDialog>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#define RLUTIL_USE_ANSI
+
 
 #include <log.h>
 #include <ymgyrch.h>
@@ -28,6 +29,7 @@ void MainWindow::onInit()
 	g_log = new Logger();
 	g_log->bufferOutput = true;
 	g_config = new EmuConfig();
+	g_config->emulator.displayMode = EmuConfig::GUI;
 }
 
 void MainWindow::onFileLoad() {

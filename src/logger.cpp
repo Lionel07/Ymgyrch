@@ -4,6 +4,7 @@
 #include <log.h>
 #include <libfmt/fmt/format.h>
 #include <libfmt/fmt/printf.h>
+#include <ymgyrch.h>
 Logger * g_log;
 
 void Logger::DoLog(std::string sys, std::string message)
@@ -11,7 +12,7 @@ void Logger::DoLog(std::string sys, std::string message)
 	fmt::MemoryWriter final_message;
 	final_message.write(fmt::format("{0:5s}: {1:s}", sys, message));
 
-	if (bufferOutput)
+	if (!g_config->log.logToStdio)
 	{
 		buffer.push_back(final_message.str());
 	}

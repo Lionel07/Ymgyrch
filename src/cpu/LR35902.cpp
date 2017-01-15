@@ -214,7 +214,7 @@ std::vector<std::string> CPU_LR35902::GetRegStrings()
 
 
 	int prev_pc = regs.pc - lastInstructionLength;
-	int prev_instructions = ((g_config->tui_rows - 3) / 2) - 3;
+	int prev_instructions = ((g_config->tui.rows - 3) / 2) - 3;
 	int next_pc = regs.pc;
 	
 	bool attemptPastDissassemble = false;
@@ -267,7 +267,7 @@ std::vector<std::string> CPU_LR35902::GetRegStrings()
 		}
 		else
 		{
-			prev_instructions = g_config->tui_rows - 8;
+			prev_instructions = g_config->tui.rows - 8;
 		}
 		
 	}
@@ -339,7 +339,7 @@ void CPU_LR35902::FetchNext()
 	if (instructions[next_opcode].run == nullptr)
 	{
 		g_log->Log(getName().c_str(), "Opcode 0x{0:02X} is not implemented.", next_opcode);
-		g_config->realTimeDebug = true;
+		g_config->tui.showDebugger = true;
 		sys->Stop();
 		return;
 	}

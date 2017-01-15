@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>240</height>
+    <width>480</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>320</width>
+     <width>480</width>
      <height>21</height>
     </rect>
    </property>
@@ -39,22 +39,6 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionToggle_Debugger">
-   <property name="text">
-    <string>Toggle Debugger</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -66,8 +50,8 @@
    <slot>onFileLoad()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>18</x>
-     <y>13</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>139</x>

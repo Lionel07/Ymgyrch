@@ -1,7 +1,7 @@
 #pragma once
 #include <cpu.h>
 #include <system.h>
-
+#include <log.h>
 
 /// All loadable systems
 enum Systems
@@ -15,28 +15,50 @@ enum Systems
 EmuSystem * LoadSystem(enum Systems sys);
 
 
+typedef struct {
+	int w;
+	int h;
+} tui_size_t;
+
+
 /// Emulator Config
 class EmuConfig {
 public:
-	/// Debugger Enabled?
-	bool realTimeDebug = true;
-
-	///The GUI we're using
 	enum GUIMODE {
-		NONE,
+		HEADLESS,
 		TUI,
-		LOG,
 		GUI
 	};
 
-	/// Current active GUI
-	GUIMODE displayMode;
+	struct {
+		float runSpeed = 1.0000f;
+		GUIMODE displayMode;
+	} emulator;
 
-	///TUI: How many cols?
-	int tui_cols;
+	/// Debugging
+	struct {
+		
+	} debug;
 
-	///TUI: How many rows.
-	int tui_rows;
+	/// TUI
+	struct
+	{
+		int cols;
+		int rows;
+		int log_size;
+		tui_size_t debugger_size;
+		tui_size_t registers_size;
+		bool showDebugger;
+	} tui;
+
+	/// Logging
+	struct
+	{
+		bool logToStdio = false;
+		bool logToFile = false;
+		int logFilter = 0;
+	} log;
+
 
 };
 

@@ -33,11 +33,11 @@ void parseCmdline(char argc, char * argv[]) {
 		if (findingDebug == true)
 		{
 			if (strcmp(argv[i], "true") == 0) {
-				g_config->realTimeDebug = true;
+				g_config->tui.showDebugger = true;
 			}
 			else
 			{
-				g_config->realTimeDebug = false; 
+				g_config->tui.showDebugger = false;
 			}
 			findingSystem = false;
 			continue;
@@ -65,7 +65,6 @@ void parseCmdline(char argc, char * argv[]) {
 
 int main(char argc, char * argv[]) {
 	g_log = new Logger();
-	g_log->bufferOutput = true;
 	g_config = new EmuConfig();
 	g_tui = new TextUI();
 	g_tui->Init();

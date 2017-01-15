@@ -137,7 +137,7 @@ std::vector<std::string> CPU_Chip8::GetRegStrings()
 	std::vector<std::string> registers;
 	std::deque<std::string>  dis;
 
-	int instructions_to_dissassemble = (g_config->tui_rows / 2) - 5;
+	int instructions_to_dissassemble = (g_config->tui.rows / 2) - 5;
 	uint16_t next_pc = regs.pc - 2;
 	for (int i = 0; i < 16; i += 4)
 	{
