@@ -10,6 +10,7 @@ docs/
 *.db
 *.opendb
 *.filters
+*.user
 .vs/
 
 # Ignore testing rom images

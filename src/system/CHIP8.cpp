@@ -52,20 +52,15 @@ void System_Chip8::LoadFile(std::string path) {
 
 		uint8_t * cartbuffer = new uint8_t[fsize];
 		fread(cartbuffer, 1, fsize, rom);
-
-		if (fsize > 0xE00)
-		{
+		if (fsize > 0xE00) {
 			fsize = 0xE00;
 		}
 		Memory_RAM * memory = (Memory_RAM*)mem.GetDeviceForAddress(0x0)->dev;
 		memory->LoadData(cartbuffer, fsize, 0x200);
 		fclose(rom);
 	}
-	else
-	{
+	else {
 		g_log->Log("CHIP8", "Failed to open rom {0:s}", path.c_str());
 		Stop();
 	}
-
-
 }
