@@ -25,9 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    emucore.cpp
+    debugger.cpp
 
 HEADERS  += mainwindow.h \
-    emucore.h
+    debugger.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    debugger.ui

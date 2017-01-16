@@ -147,6 +147,7 @@
     <ClCompile Include="src\cpu\CHIP8Cpu.cpp" />
     <ClCompile Include="src\cpu\LR35902.cpp" />
     <ClCompile Include="src\cpu\LR35902_Instructions.cpp" />
+    <ClCompile Include="src\emucore.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\mem\controller.cpp" />
     <ClCompile Include="src\mem\flat_ram.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\includes\cpu\CHIP8Cpu.h" />
     <ClInclude Include="src\includes\cpu\LR35902.h" />
     <ClInclude Include="src\includes\device.h" />
+    <ClInclude Include="src\includes\emucore.h" />
     <ClInclude Include="src\includes\gpu.h" />
     <ClInclude Include="src\includes\host.h" />
     <ClInclude Include="src\includes\log.h" />

@@ -78,11 +78,11 @@ private:
 		std::string name;
 		unsigned char length;
 		void *run;
-	} cpu_instruction_t;
+	} gb_instruction_t;
 
 	regs_t regs;
 	uint8_t next_opcode;
-	cpu_instruction_t instructions[256];
+	gb_instruction_t instructions[256];
 	
 	bool flag_ime = false;
 	bool firstTimeSetup = false;
@@ -96,8 +96,9 @@ public:
 	void TeachInstructions();
 	void Init();
 	void Tick();
-	void PrintRegs();
-	virtual std::vector<std::string> GetRegStrings();
+
+	virtual std::vector<cpu_reg_t> GetRegs();
+	virtual std::vector<cpu_instruction_t> GetDissassembly();
 
 	/// Dissassembles the instruction at addr
 	char * DisassembleInstruction(uint16_t addr);

@@ -56,7 +56,13 @@ void Cpu::PrintRegs()
 {
 }
 
-std::vector<std::string> Cpu::GetRegStrings()
+std::vector<cpu_reg_t> Cpu::GetRegs()
 {
-	return std::vector<std::string>();
+	return std::vector<cpu_reg_t>();
+}
+
+
+std::vector<cpu_instruction_t> Cpu::GetDissassembly()
+{
+	return std::vector<cpu_instruction_t>();
 }

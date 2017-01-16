@@ -115,6 +115,10 @@ std::string CPU_Chip8::Dissassemble(uint16_t opcode)
 		break;
 	}
 
+	if (dissassembly_string == "") {
+		dissassembly_string = fmt::format("0x{0:04}", opcode);
+	}
+
 	return dissassembly_string;
 }
 
@@ -132,48 +136,35 @@ void CPU_Chip8::Tick() {
 		regs.timer_delay--;
 	}
 }
-std::vector<std::string> CPU_Chip8::GetRegStrings()
+
+std::vector<cpu_reg_t> CPU_Chip8::GetRegs()
 {
-	std::vector<std::string> registers;
-	std::deque<std::string>  dis;
+	std::vector<cpu_reg_t> reg_vec;
+	reg_vec.push_back({ "PC", regs.pc, 2 , Ymgyrch::REG_PROGRAM_COUNTER });
+	reg_vec.push_back({ "SP", regs.sp, 2 , Ymgyrch::REG_STACK_POINTER });
+	
 
-	int instructions_to_dissassemble = (g_config->tui.rows / 2) - 5;
-	uint16_t next_pc = regs.pc - 2;
-	for (int i = 0; i < 16; i += 4)
-	{
-		registers.push_back(fmt::format("| V{0:X}: 0x{1:02x} | V{2:X}: 0x{3:02x} | V{4:X}: 0x{5:02x} | V{6:X}: 0x{7:02x} |", i, regs.v[i], i + 1, regs.v[i + 1], i + 2, regs.v[i + 2], i + 3, regs.v[i + 3]));
+	for (int i = 0; i < 16; i++) {
+		reg_vec.push_back({ fmt::format("V{0:x}", i), regs.v[i], 1 , Ymgyrch::REG_GENERAL_PURPOSE });
 	}
-
-	registers.push_back(fmt::format("|-PC: 0x{0:03X} ------------SP: 0x{1:02X} --I: 0x{2:04X}|", regs.pc, regs.sp, regs.I));
-	registers.push_back("");
-	registers.push_back(fmt::format("|==== PC ====== Dissassembly ===== Opcode ==|", regs.pc, regs.sp, regs.I));
-	for (int i = 0; i <= instructions_to_dissassemble - 1; i++) {
-		uint16_t opcode = sys->mem.ReadShort(next_pc);
-		std::string dis_string = Dissassemble(opcode);
-		dis.push_front(fmt::format("|   0x{2:04x} : {1:26s} {0:04X}|", opcode, dis_string, next_pc));
-		next_pc -= 2;
-	}
-
-	next_pc = regs.pc;
-
-	for (int i = 0; i <= instructions_to_dissassemble; i++) {
-		uint16_t opcode = sys->mem.ReadShort(next_pc);
-		std::string dis_string = Dissassemble(opcode);
-		if (i == 0) {
-			dis.push_back(fmt::format("|-> 0x{2:04x} : {1:26s} {0:04X}|", opcode, dis_string, next_pc));
-		}
-		else {
-			dis.push_back(fmt::format("|   0x{2:04x} : {1:26s} {0:04X}|", opcode, dis_string, next_pc));
-		}
-		next_pc += 2;
-	}
-
-	for each (std::string line in dis) {
-		registers.push_back(line);
-	}
-	return registers;
+	return reg_vec;
 }
 
+std::vector<cpu_instruction_t> CPU_Chip8::GetDissassembly()
+{
+	std::vector<cpu_instruction_t> dis_vec;
+
+	uint64_t current_pc = regs.pc;
+
+	for (unsigned int i = 0; i < g_config->debug.numToDissassemble; i++) {
+		uint16_t opcode = sys->mem.ReadWord(current_pc);
+		dis_vec.push_back({ current_pc, Dissassemble(opcode)});
+		current_pc += 2;
+	}
+
+
+	return dis_vec;
+}
 void CPU_Chip8::op_0(CPU_Chip8 * cpu, uint16_t opcode) {
 	switch (opcode & 0x00FF) {
 	case 0xE0:

@@ -4,16 +4,6 @@
 #include <log.h>
 
 /// All loadable systems
-enum Systems
-{
-	NES,
-	GAMEBOY,
-	CHIP8
-};
-
-/// Creates a new instance of a system
-EmuSystem * LoadSystem(enum Systems sys);
-
 
 typedef struct {
 	int w;
@@ -30,14 +20,28 @@ public:
 		GUI
 	};
 
+	enum Systems
+	{
+		UNKNOWN,
+		NES,
+		GAMEBOY,
+		CHIP8
+	};
+
 	struct {
 		float runSpeed = 1.0000f;
 		GUIMODE displayMode;
+		bool noGraphics = false;
+		bool debugDefault = true;
+		bool debuggerInline = true;
 	} emulator;
 
 	/// Debugging
 	struct {
-		
+		unsigned int numToDissassemble = 10;
+		bool dissassemblePast = false;
+		unsigned int updateFrequency = 16; // Update at 60hz
+
 	} debug;
 
 	/// TUI
@@ -62,6 +66,8 @@ public:
 
 };
 
+/// Creates a new instance of a system
+EmuSystem * LoadSystem(enum EmuConfig::Systems sys);
 
-extern EmuSystem * g_running_system;
+
 extern EmuConfig * g_config;

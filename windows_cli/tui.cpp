@@ -149,7 +149,7 @@ void TextUI::DrawDebugger()
 	int cpuLogY = 2;
 	for (int c = 0; c < cpus; c++)
 	{
-		std::vector<std::string> sysinfo = g_running_system->cpu[c]->GetRegStrings();
+		std::vector<std::string> sysinfo = g_running_system->cpu[c]->GetRegs();
 		for each (std::string line in sysinfo)
 		{
 			rlutil::locate((rlutil::tcols() / 2) + 2, cpuLogY);

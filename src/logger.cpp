@@ -10,7 +10,7 @@ Logger * g_log;
 void Logger::DoLog(std::string sys, std::string message)
 {
 	fmt::MemoryWriter final_message;
-	final_message.write(fmt::format("{0:5s}: {1:s}", sys, message));
+	final_message.write(fmt::format("{0:8s}: {1:s}", sys, message));
 
 	if (!g_config->log.logToStdio)
 	{
@@ -18,7 +18,7 @@ void Logger::DoLog(std::string sys, std::string message)
 	}
 	else
 	{
-		//fmt::print("{0:s}\n", final_message);
+		fmt::print("{0:s}\n", final_message.str());
 	}
 	
 }
@@ -47,6 +47,14 @@ void Logger::Panic(std::string component, std::string format, fmt::ArgList args)
 
 void Logger::FlushBufferToX(int x)
 {
-	///@todo Implement properly
+	int lower_limit = g_log->buffer.size() - x;
+
+	if (lower_limit < 0) {
+		lower_limit = 0;
+	}
+
+	for (int i = 0; i < lower_limit; i++) {
+		buffer.pop_front();
+	}
 }
 

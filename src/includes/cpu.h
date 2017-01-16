@@ -3,6 +3,32 @@
 #include "system.h"
 class EmuSystem;
 
+namespace Ymgyrch {
+	enum CpuRegType {
+		REG_NONE = 0,
+		REG_GENERAL_PURPOSE,
+		REG_IO,
+		REG_MSR,
+		REG_PROGRAM_COUNTER,
+		REG_STACK_POINTER,
+		REG_ACCUMULATOR,
+		REG_FLAGS,
+		REG_TIMER,
+		REG_COMBINED
+	};
+};
+
+typedef struct {
+	std::string name;
+	uint64_t value;
+	int bytes;
+	Ymgyrch::CpuRegType type;
+} cpu_reg_t;
+
+typedef struct {
+	uint64_t address;
+	std::string dissassembly;
+} cpu_instruction_t;
 
 /*! A generic CPU */
 class Cpu {
@@ -41,6 +67,6 @@ public:
 	/// Prints Registers to log
 	virtual void PrintRegs();
 	/// Returns a list of debug strings, used in the debugger.
-	virtual std::vector<std::string> GetRegStrings();
-
+	virtual std::vector<cpu_reg_t> GetRegs();
+	virtual std::vector<cpu_instruction_t> GetDissassembly();
 };

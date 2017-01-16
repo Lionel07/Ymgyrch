@@ -27,8 +27,10 @@ public:
 	/// Logs the current instruction to the debug log
 	std::string Dissassemble(uint16_t opcode);
 	void Tick();
-	virtual std::vector<std::string> GetRegStrings();
+	virtual std::vector<cpu_reg_t> GetRegs();
 
+
+	std::vector<cpu_instruction_t> GetDissassembly();
 
 	// Opcodes
 	static void op_0(CPU_Chip8 * cpu, uint16_t opcode);

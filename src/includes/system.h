@@ -13,6 +13,10 @@ public:
 	/// Is the system active?
 	bool isActive;
 
+
+	/// Does this system need a rom
+	bool configNeedsRom = true;
+
 	/// All CPU's
 	std::vector<Cpu*> cpu;
 

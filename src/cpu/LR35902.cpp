@@ -13,7 +13,7 @@ CPU_LR35902::CPU_LR35902(EmuSystem * sys) : Cpu(sys)
 {
 	setName("CPU0");
 	g_log->Log(getName().c_str(), "Initialised");
-	memset(&instructions, 0, 256 * sizeof(cpu_instruction_t));
+	memset(&instructions, 0, 256 * sizeof(gb_instruction_t));
 	next_opcode = 0x00;
 	regs = {};
 }
@@ -198,99 +198,37 @@ void CPU_LR35902::Tick() {
 	FetchNext();
 }
 
-void CPU_LR35902::PrintRegs() {
+std::vector<cpu_reg_t> CPU_LR35902::GetRegs()
+{
+	std::vector<cpu_reg_t> reg_vec;
+	reg_vec.push_back({ "PC", regs.pc, 2 , Ymgyrch::REG_PROGRAM_COUNTER });
+	reg_vec.push_back({ "SP", regs.sp, 2 , Ymgyrch::REG_STACK_POINTER });
 
+	reg_vec.push_back({ "A", regs.a, 1 , Ymgyrch::REG_ACCUMULATOR});
+	reg_vec.push_back({ "B", regs.b, 1 , Ymgyrch::REG_GENERAL_PURPOSE});
+	reg_vec.push_back({ "C", regs.c, 1 , Ymgyrch::REG_GENERAL_PURPOSE });
+	reg_vec.push_back({ "D", regs.d, 1 , Ymgyrch::REG_GENERAL_PURPOSE });
+	reg_vec.push_back({ "E", regs.e, 1 , Ymgyrch::REG_GENERAL_PURPOSE });
+	reg_vec.push_back({ "F", regs.f, 1 , Ymgyrch::REG_FLAGS });
+	reg_vec.push_back({ "H", regs.h, 1 , Ymgyrch::REG_GENERAL_PURPOSE });
+	reg_vec.push_back({ "L", regs.l, 1 , Ymgyrch::REG_GENERAL_PURPOSE });
+	return reg_vec;
 }
 
-std::vector<std::string> CPU_LR35902::GetRegStrings()
+std::vector<cpu_instruction_t> CPU_LR35902::GetDissassembly()
 {
-	std::vector<std::string> registers;
-	std::deque<std::string>  dis;
-
-	registers.push_back(fmt::format("A: 0x{0:02x} F: 0x{1:02x} | AF: 0x{2:04x} | PC: 0x{3:04x}", regs.a, regs.f, regs.af, regs.pc));
-	registers.push_back(fmt::format("B: 0x{0:02x} C: 0x{1:02x} | BC: 0x{2:04x} | SP: 0x{3:04x}", regs.b, regs.c, regs.bc, regs.sp));
-	registers.push_back(fmt::format("D: 0x{0:02x} E: 0x{1:02x} | DE: 0x{2:04x} | M : 0x{3:04x}", regs.d, regs.e, regs.de, regs.m));
-	registers.push_back(fmt::format("H: 0x{0:02x} L: 0x{1:02x} | HL: 0x{2:04x} | T : 0x{3:04x}", regs.h, regs.l, regs.hl, regs.t));
-
-
-	int prev_pc = regs.pc - lastInstructionLength;
-	int prev_instructions = ((g_config->tui.rows - 3) / 2) - 3;
-	int next_pc = regs.pc;
+	std::vector<cpu_instruction_t> dis_vec;
 	
-	bool attemptPastDissassemble = false;
+	uint64_t current_pc = regs.pc;
 
-	char * dis_string;
-
-	if (!justJumped && attemptPastDissassemble)
-	{
-		for (int found_instructions = 0; found_instructions <= prev_instructions;)
-		{
-			bool found = false;
-			// Take prev_pc, run back until diff + instructions[opcode].length would equal prev_pc
-			// Set prev_pc to instruction
-			// Repeat
-
-			for (int j = 2; j > 0; j--)
-			{
-				uint64_t diff = prev_pc - j + 1;
-				uint8_t canidate = sys->mem.ReadByte(diff);
-
-				if (instructions[canidate].length + diff == prev_pc)
-				{
-					dis_string = DisassembleInstruction((uint16_t)diff);
-					dis.push_front(fmt::format("|  0x{1:04x} : {0:25s}", dis_string, (uint16_t)diff));
-					delete dis_string;
-
-					found_instructions++;
-					prev_pc -= j;
-					found = true;
-					break;
-				}
-			}
-
-			if (!found)
-			{
-				prev_pc -= 1;
-				dis.push_front(fmt::format("|  0x{0:04x} : 0x{1:02x}", prev_pc, sys->mem.ReadByte(prev_pc)));
-				found_instructions++;
-			}
-
-		}
-	}
-	else
-	{
-		if (attemptPastDissassemble)
-		{
-			for (int i = 0; i <= prev_instructions; i++) {
-				dis.push_front(fmt::format("|  0x{0:04x} : ???", prev_pc - i));
-			}
-		}
-		else
-		{
-			prev_instructions = g_config->tui.rows - 8;
-		}
-		
-	}
-	
-	dis_string = DisassembleInstruction(regs.pc);
-	dis.push_back(fmt::format("|> 0x{1:04x} : {0:25s}", dis_string, regs.pc));
-	delete dis_string;
-	next_pc += instructions[sys->mem.ReadByte(next_pc)].length + 1;
-
-	for (int i = 0; i <= prev_instructions; i++) {
-		uint8_t opcode = sys->mem.ReadByte(next_pc);
-		dis_string = DisassembleInstruction(next_pc);
-		dis.push_back(fmt::format("|  0x{1:04x} : {0:25s}", dis_string, next_pc));
-		delete dis_string;
-		next_pc += instructions[opcode].length + 1;
-	}
-	
-	for each (std::string line in dis)
-	{
-		registers.push_back(line);
+	for (unsigned int i = 0; i < g_config->debug.numToDissassemble; i++) {
+		uint8_t opcode = sys->mem.ReadByte(current_pc);
+		dis_vec.push_back({ current_pc, DisassembleInstruction(current_pc) });
+		current_pc += instructions[opcode].length + 1;
 	}
 
-	return registers;
+
+	return dis_vec;
 }
 
 char * CPU_LR35902::DisassembleInstruction(uint16_t pc) {
