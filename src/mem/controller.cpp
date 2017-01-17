@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <memcontroller.h>
 #include <log.h>
 MemoryController::MemoryController()
@@ -27,9 +28,11 @@ void MemoryController::Map(Memory * device, uint64_t start)
 	mapping->dev = device;
 	mapping->start = start;
 	mapping->end = device->GetSize() + start - 1;
-	mappings.push_back(mapping);
 	attached_devices.push_back(device);
-	//g_log->Log("MEM", "Mapped %s => 0x%04llX - 0x%04llX", device->name.c_str(), mapping->start, mapping->end);
+
+	mappings.push_back(mapping);
+
+	std::sort(mappings.begin(), mappings.end(), compareMappings);
 
 }
 
@@ -37,6 +40,7 @@ void MemoryController::Unmap(Memory * device)
 {
 	/// @todo Implement this
 }
+
 
 mem_map_t * MemoryController::GetDeviceForAddress(uint64_t address) {
 	for each (mem_map_t * dev in mappings)
@@ -170,4 +174,10 @@ void MemoryController::DebugPrintMemoryMap()
 		g_log->Log("MEM", "{0:9s} : 0x{1:04X} => 0x{2:04X}", mappings_sorted[i]->dev->name.c_str(), mappings_sorted[i]->start, mappings_sorted[i]->end);
 	}
 
+}
+
+bool MemoryController::compareMappings(mem_map_t * a, mem_map_t * b)
+{
+
+	return a->start < b->start;
 }

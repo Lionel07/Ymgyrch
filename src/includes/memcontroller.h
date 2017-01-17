@@ -58,6 +58,9 @@ public:
 
 	/// Print the memory map to the log, for testing.
 	void DebugPrintMemoryMap();
+
+
+	static bool compareMappings(mem_map_t * a, mem_map_t * b);
 private:
 
 	/// Every device attached on this bus

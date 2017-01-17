@@ -135,6 +135,8 @@ void CPU_Chip8::Tick() {
 	if (regs.timer_delay > 0) {
 		regs.timer_delay--;
 	}
+
+	instructions_total++;
 }
 
 std::vector<cpu_reg_t> CPU_Chip8::GetRegs()

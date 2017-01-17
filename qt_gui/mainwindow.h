@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QSettings>
 #include <emucore.h>
 #include <debugger.h>
 namespace Ui {
@@ -23,6 +24,7 @@ private:
 	QTimer * log_clock = nullptr;
 	EmuCore * emu = nullptr;
 	Debugger * debug = nullptr;
+	QSettings* registry = nullptr;
 	void onInit();
 
 public slots:
@@ -33,6 +35,7 @@ public slots:
 	void onEmulatorStop();
 	void doUpdate();
 	void onToggleDebugger(bool enable);
+	void loadLastRom();
 };
 
 #endif // MAINWINDOW_H

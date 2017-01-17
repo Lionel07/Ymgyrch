@@ -34,11 +34,15 @@ typedef struct {
 class Cpu {
 private:
     std::string name;
-    bool isActive = true;
+	bool isActive = true;
 protected:
 	/// The system the CPU is running on.
     EmuSystem * sys = nullptr;
 public:
+
+	uint64_t instructions_total = 0;
+	uint64_t instructions_last = 0;
+	uint64_t ips = 0;
 
 	/// Create a new CPU
 	explicit Cpu(EmuSystem * sys);

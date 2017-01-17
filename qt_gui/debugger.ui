@@ -31,13 +31,6 @@
     <height>16777215</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <family>Fixedsys Excelsior 3.01</family>
-    <pointsize>12</pointsize>
-    <stylestrategy>NoAntialias</stylestrategy>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Ymgyrch Debugger</string>
   </property>
@@ -185,61 +178,150 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QPlainTextEdit" name="emuLog">
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>200</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Fixedsys Excelsior 3.01</family>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-       <property name="plainText">
-        <string>Log
-</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <layout class="QVBoxLayout" name="emuControls">
        <property name="spacing">
         <number>0</number>
        </property>
        <item>
-        <widget class="QPushButton" name="debugStart">
-         <property name="text">
-          <string>Start CPU</string>
+        <widget class="QGroupBox" name="controls">
+         <property name="title">
+          <string>Controls</string>
          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPlainTextEdit" name="emuLog">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Fixedsys Excelsior 3.01</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Box</enum>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="plainText">
+             <string>Log
+</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="ipsLabel">
+            <property name="minimumSize">
+             <size>
+              <width>75</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Delta: 0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QPushButton" name="debugStart">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Start CPU</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="stepButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Step</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="stepButton">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
+        <widget class="QGroupBox" name="settings">
+         <property name="title">
+          <string>Settings</string>
          </property>
-         <property name="text">
-          <string>Step</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="updateDisplay">
-         <property name="text">
-          <string>Update Debug Display</string>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <widget class="QLabel" name="updateSpeedLabel">
+              <property name="text">
+               <string>Debugging Rate (higher = slower)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSlider" name="updateSlider">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="pageStep">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>1</number>
+              </property>
+              <property name="tracking">
+               <bool>false</bool>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="invertedAppearance">
+               <bool>true</bool>
+              </property>
+              <property name="tickPosition">
+               <enum>QSlider::TicksBelow</enum>
+              </property>
+              <property name="tickInterval">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -249,5 +331,41 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>updateSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Debugger</receiver>
+   <slot>OnSetUpdateSpeed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>530</x>
+     <y>426</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>updateSlider</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>Debugger</receiver>
+   <slot>OnSetUpdateSpeed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>423</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>OnSetUpdateSpeed(int)</slot>
+ </slots>
 </ui>

@@ -34,6 +34,7 @@ public:
     QAction *actionLog;
     QAction *actionDebugger;
     QAction *actionExit;
+    QAction *actionLoad_Last_ROM;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QVBoxLayout *container;
@@ -67,6 +68,8 @@ public:
         actionDebugger->setCheckable(true);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QStringLiteral("actionExit"));
+        actionLoad_Last_ROM = new QAction(MainWindow);
+        actionLoad_Last_ROM->setObjectName(QStringLiteral("actionLoad_Last_ROM"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -111,6 +114,7 @@ public:
         menuBar->addAction(menuRun->menuAction());
         menuBar->addAction(menuView->menuAction());
         menuFile->addAction(actionLoad_ROM);
+        menuFile->addAction(actionLoad_Last_ROM);
         menuFile->addAction(actionExit);
         menuRun->addAction(actionStart);
         menuRun->addAction(actionPause);
@@ -126,6 +130,7 @@ public:
         QObject::connect(actionStart, SIGNAL(triggered()), MainWindow, SLOT(onEmulatorStart()));
         QObject::connect(actionPause, SIGNAL(triggered()), MainWindow, SLOT(onEmulatorPause()));
         QObject::connect(actionExit, SIGNAL(triggered()), MainWindow, SLOT(close()));
+        QObject::connect(actionLoad_Last_ROM, SIGNAL(triggered()), MainWindow, SLOT(loadLastRom()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -133,7 +138,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Ymgyrch", Q_NULLPTR));
-        actionLoad_ROM->setText(QApplication::translate("MainWindow", "Load ROM...", Q_NULLPTR));
+        actionLoad_ROM->setText(QApplication::translate("MainWindow", "Open ROM...", Q_NULLPTR));
         actionLoad_ROM->setShortcut(QApplication::translate("MainWindow", "Ctrl+O", Q_NULLPTR));
         actionStart->setText(QApplication::translate("MainWindow", "Start", Q_NULLPTR));
         actionStart->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", Q_NULLPTR));
@@ -148,6 +153,8 @@ public:
         actionDebugger->setText(QApplication::translate("MainWindow", "Debugger", Q_NULLPTR));
         actionDebugger->setShortcut(QApplication::translate("MainWindow", "Ctrl+D", Q_NULLPTR));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", Q_NULLPTR));
+        actionLoad_Last_ROM->setText(QApplication::translate("MainWindow", "Load Last ROM", Q_NULLPTR));
+        actionLoad_Last_ROM->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+O", Q_NULLPTR));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", Q_NULLPTR));
         menuRun->setTitle(QApplication::translate("MainWindow", "Run", Q_NULLPTR));
         menuView->setTitle(QApplication::translate("MainWindow", "View", Q_NULLPTR));

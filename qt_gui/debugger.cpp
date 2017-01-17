@@ -14,26 +14,30 @@ Debugger::Debugger(QWidget *parent) :
 	tlog = new QTimer(this);
 	tlog->setTimerType(Qt::CoarseTimer);
 	connect(tlog, &QTimer::timeout, this, &Debugger::UpdateLog);
-	tlog->start(250);
+	tlog->start(500);
+
+
+	tips = new QTimer(this);
+	tips->setTimerType(Qt::PreciseTimer);
+	connect(tips, &QTimer::timeout, this, &Debugger::CalculateIPS);
+	tips->start(1000);
+
 
 	ui->regTable->setColumnWidth(0, 30);
 }
 
 void Debugger::DoUpdate() {
 
-	if (emu == nullptr) {
-		return;
-	}
-	if (emu->running_system == nullptr) {
-		return;
-	}
+	if (emu == nullptr) { return; }
+	if (emu->running_system == nullptr) { return; }
+	int index = 0;
 
 	// Update Registers
-
 	std::vector<cpu_reg_t> regs = emu->running_system->cpu[0]->GetRegs();
 	std::vector<cpu_instruction_t> dis = emu->running_system->cpu[0]->GetDissassembly();
+
 	ui->regTable->setRowCount((int)regs.size());
-	int index = 0;
+
 	for each (cpu_reg_t reg in regs) {
 		QString name = QString::fromStdString(reg.name);
 		QString type = "";
@@ -99,7 +103,6 @@ void Debugger::DoUpdate() {
 	index = 0;
 	for each (cpu_instruction_t instruction in dis) {
 		QString addr = QString::fromStdString(fmt::format("0x{0:04x}", instruction.address));
-
 		///@todo Show current PC somehow
 		ui->dissassembly->setItem(index, 0, new QTableWidgetItem(addr));
 		ui->dissassembly->setItem(index, 1, new QTableWidgetItem(QString::fromStdString(instruction.dissassembly)));
@@ -114,20 +117,36 @@ Debugger::~Debugger()
 
 void Debugger::UpdateLog()
 {
-
-	int numlines = 20;
-
 	ui->emuLog->setPlainText("");
-
+	int numlines = 20;
 	int lower_limit = g_log->buffer.size() - numlines; ///@Todo replace with config limit
 
-	if (lower_limit < 0) {
-		lower_limit = 0;
-	}
+	if (lower_limit < 0) { lower_limit = 0; }
 
 	for (int i = lower_limit; i < g_log->buffer.size(); i++) {
 		ui->emuLog->appendPlainText(QString::fromStdString(g_log->buffer[i]));
 	}
 
 	g_log->FlushBufferToX(numlines);
+}
+
+void Debugger::OnSetUpdateSpeed(int value)
+{
+	clock->stop();
+	if (value != ui->updateSlider->maximum()) {
+		clock->start((g_config->debug.updateFrequency * value) + 16);
+	}
+}
+
+void Debugger::CalculateIPS()
+{
+	if (emu == nullptr) { return; }
+	if (emu->running_system == nullptr) { return; }
+	// Calculate delta instructions.
+	uint64_t ins_tot = emu->running_system->cpu[0]->instructions_total;
+	uint64_t ins_lst = emu->running_system->cpu[0]->instructions_last;
+	uint64_t delta_ips = ins_tot - ins_lst;
+	emu->running_system->cpu[0]->instructions_last = ins_tot;
+	QString ips_string = QString::fromStdString(fmt::format("IPS: {0:d}", delta_ips));
+	ui->ipsLabel->setText(ips_string);
 }

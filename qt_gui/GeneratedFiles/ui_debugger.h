@@ -13,11 +13,14 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -32,11 +35,20 @@ public:
     QTableWidget *dissassembly;
     QTableWidget *regTable;
     QHBoxLayout *lowerPane;
-    QPlainTextEdit *emuLog;
     QVBoxLayout *emuControls;
+    QGroupBox *controls;
+    QHBoxLayout *horizontalLayout_3;
+    QPlainTextEdit *emuLog;
+    QLabel *ipsLabel;
+    QVBoxLayout *verticalLayout_3;
     QPushButton *debugStart;
     QPushButton *stepButton;
-    QCheckBox *updateDisplay;
+    QSpacerItem *verticalSpacer;
+    QGroupBox *settings;
+    QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *verticalLayout;
+    QLabel *updateSpeedLabel;
+    QSlider *updateSlider;
 
     void setupUi(QWidget *Debugger)
     {
@@ -51,11 +63,6 @@ public:
         Debugger->setSizePolicy(sizePolicy);
         Debugger->setMinimumSize(QSize(0, 240));
         Debugger->setMaximumSize(QSize(16777215, 16777215));
-        QFont font;
-        font.setFamily(QStringLiteral("Fixedsys Excelsior 3.01"));
-        font.setPointSize(12);
-        font.setStyleStrategy(QFont::NoAntialias);
-        Debugger->setFont(font);
         mainLayout = new QVBoxLayout(Debugger);
         mainLayout->setSpacing(0);
         mainLayout->setObjectName(QStringLiteral("mainLayout"));
@@ -123,36 +130,85 @@ public:
         lowerPane = new QHBoxLayout();
         lowerPane->setSpacing(0);
         lowerPane->setObjectName(QStringLiteral("lowerPane"));
-        emuLog = new QPlainTextEdit(Debugger);
-        emuLog->setObjectName(QStringLiteral("emuLog"));
-        emuLog->setMaximumSize(QSize(16777215, 200));
-        QFont font1;
-        font1.setFamily(QStringLiteral("Fixedsys Excelsior 3.01"));
-        font1.setPointSize(12);
-        emuLog->setFont(font1);
-        emuLog->setFrameShape(QFrame::Box);
-        emuLog->setReadOnly(true);
-
-        lowerPane->addWidget(emuLog);
-
         emuControls = new QVBoxLayout();
         emuControls->setSpacing(0);
         emuControls->setObjectName(QStringLiteral("emuControls"));
-        debugStart = new QPushButton(Debugger);
+        controls = new QGroupBox(Debugger);
+        controls->setObjectName(QStringLiteral("controls"));
+        horizontalLayout_3 = new QHBoxLayout(controls);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        emuLog = new QPlainTextEdit(controls);
+        emuLog->setObjectName(QStringLiteral("emuLog"));
+        emuLog->setMaximumSize(QSize(16777215, 16777215));
+        QFont font;
+        font.setFamily(QStringLiteral("Fixedsys Excelsior 3.01"));
+        font.setPointSize(12);
+        emuLog->setFont(font);
+        emuLog->setFrameShape(QFrame::Box);
+        emuLog->setReadOnly(true);
+
+        horizontalLayout_3->addWidget(emuLog);
+
+        ipsLabel = new QLabel(controls);
+        ipsLabel->setObjectName(QStringLiteral("ipsLabel"));
+        ipsLabel->setMinimumSize(QSize(75, 0));
+
+        horizontalLayout_3->addWidget(ipsLabel);
+
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        debugStart = new QPushButton(controls);
         debugStart->setObjectName(QStringLiteral("debugStart"));
+        debugStart->setMinimumSize(QSize(100, 0));
 
-        emuControls->addWidget(debugStart);
+        verticalLayout_3->addWidget(debugStart);
 
-        stepButton = new QPushButton(Debugger);
+        stepButton = new QPushButton(controls);
         stepButton->setObjectName(QStringLiteral("stepButton"));
         stepButton->setMinimumSize(QSize(0, 0));
 
-        emuControls->addWidget(stepButton);
+        verticalLayout_3->addWidget(stepButton);
 
-        updateDisplay = new QCheckBox(Debugger);
-        updateDisplay->setObjectName(QStringLiteral("updateDisplay"));
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        emuControls->addWidget(updateDisplay);
+        verticalLayout_3->addItem(verticalSpacer);
+
+
+        horizontalLayout_3->addLayout(verticalLayout_3);
+
+
+        emuControls->addWidget(controls);
+
+        settings = new QGroupBox(Debugger);
+        settings->setObjectName(QStringLiteral("settings"));
+        verticalLayout_2 = new QVBoxLayout(settings);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        updateSpeedLabel = new QLabel(settings);
+        updateSpeedLabel->setObjectName(QStringLiteral("updateSpeedLabel"));
+
+        verticalLayout->addWidget(updateSpeedLabel);
+
+        updateSlider = new QSlider(settings);
+        updateSlider->setObjectName(QStringLiteral("updateSlider"));
+        updateSlider->setMinimum(1);
+        updateSlider->setMaximum(100);
+        updateSlider->setPageStep(1);
+        updateSlider->setValue(1);
+        updateSlider->setTracking(false);
+        updateSlider->setOrientation(Qt::Horizontal);
+        updateSlider->setInvertedAppearance(true);
+        updateSlider->setTickPosition(QSlider::TicksBelow);
+        updateSlider->setTickInterval(5);
+
+        verticalLayout->addWidget(updateSlider);
+
+
+        verticalLayout_2->addLayout(verticalLayout);
+
+
+        emuControls->addWidget(settings);
 
 
         lowerPane->addLayout(emuControls);
@@ -162,6 +218,8 @@ public:
 
 
         retranslateUi(Debugger);
+        QObject::connect(updateSlider, SIGNAL(valueChanged(int)), Debugger, SLOT(OnSetUpdateSpeed(int)));
+        QObject::connect(updateSlider, SIGNAL(sliderMoved(int)), Debugger, SLOT(OnSetUpdateSpeed(int)));
 
         QMetaObject::connectSlotsByName(Debugger);
     } // setupUi
@@ -179,11 +237,14 @@ public:
         ___qtablewidgetitem3->setText(QApplication::translate("Debugger", "Value", Q_NULLPTR));
         QTableWidgetItem *___qtablewidgetitem4 = regTable->horizontalHeaderItem(2);
         ___qtablewidgetitem4->setText(QApplication::translate("Debugger", "Type", Q_NULLPTR));
+        controls->setTitle(QApplication::translate("Debugger", "Controls", Q_NULLPTR));
         emuLog->setPlainText(QApplication::translate("Debugger", "Log\n"
 "", Q_NULLPTR));
+        ipsLabel->setText(QApplication::translate("Debugger", "Delta: 0", Q_NULLPTR));
         debugStart->setText(QApplication::translate("Debugger", "Start CPU", Q_NULLPTR));
         stepButton->setText(QApplication::translate("Debugger", "Step", Q_NULLPTR));
-        updateDisplay->setText(QApplication::translate("Debugger", "Update Debug Display", Q_NULLPTR));
+        settings->setTitle(QApplication::translate("Debugger", "Settings", Q_NULLPTR));
+        updateSpeedLabel->setText(QApplication::translate("Debugger", "Debugging Rate (higher = slower)", Q_NULLPTR));
     } // retranslateUi
 
 };

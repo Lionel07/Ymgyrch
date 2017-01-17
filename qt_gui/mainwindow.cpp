@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+	registry = new QSettings(QCoreApplication::applicationDirPath() + "/ymgyrch_qt.ini", QSettings::IniFormat);
+
 	onInit();
 }
 
@@ -123,16 +126,38 @@ void MainWindow::onToggleDebugger(bool enable)
 			debug = nullptr;
 		}
 	}
-	
 }
 
 void MainWindow::onFileLoad() {
 	g_log->Debug("UI", "Loading Rom...");
-	QString fileName = QFileDialog::getOpenFileName(this,
-		tr("Open ROM image"), "", 
+
+	QString fileName;
+
+	fileName = QFileDialog::getOpenFileName(this,
+		tr("Open ROM image"), registry->value("ui/directories/openrom").toString(),
 		tr("ROM Files (*.bin *.gb *.nes *.*)"));
+
+
+	if (!fileName.isEmpty()) {
+		QDir currentDir;
+		registry->setValue("ui/directories/openrom", currentDir.absoluteFilePath(fileName));
+		registry->setValue("emu/file/lastrom", currentDir.absoluteFilePath(fileName));
+		registry->sync();
+	}
 
 	// Set the kind of emulator we're running here
 	emu->image_location = fileName.toStdString();
 	emu->system = YmgyrchUI::getSystemFromRom(emu->image_location);
 }
+
+
+void MainWindow::loadLastRom() {
+	QString filename = registry->value("emu/file/lastrom").toString();
+
+	if (filename.isEmpty()) { return; }
+
+	emu->image_location = filename.toStdString();
+	emu->system = YmgyrchUI::getSystemFromRom(emu->image_location);
+
+}
+

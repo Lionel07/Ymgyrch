@@ -82,6 +82,7 @@
      <string>File</string>
     </property>
     <addaction name="actionLoad_ROM"/>
+    <addaction name="actionLoad_Last_ROM"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuRun">
@@ -107,7 +108,7 @@
   </widget>
   <action name="actionLoad_ROM">
    <property name="text">
-    <string>Load ROM...</string>
+    <string>Open ROM...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -170,6 +171,14 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionLoad_Last_ROM">
+   <property name="text">
+    <string>Load Last ROM</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
    </property>
   </action>
  </widget>
@@ -247,8 +256,24 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
      <x>399</x>
      <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionLoad_Last_ROM</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>loadLastRom()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
@@ -263,5 +288,6 @@
   <slot>onEmulatorPause()</slot>
   <slot>onEmulatorStep()</slot>
   <slot>onToggleDebugger(bool)</slot>
+  <slot>loadLastRom()</slot>
  </slots>
 </ui>

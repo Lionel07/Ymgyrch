@@ -196,6 +196,7 @@ void CPU_LR35902::Init() {
 void CPU_LR35902::Tick() {
 	if (!this->cpuActive()) { return; }
 	FetchNext();
+	instructions_total++;
 }
 
 std::vector<cpu_reg_t> CPU_LR35902::GetRegs()

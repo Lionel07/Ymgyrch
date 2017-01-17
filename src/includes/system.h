@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
-#include "cpu.h"
 #include <memcontroller.h>
+#include <cpu.h>
+#include <device.h>
+#include <gpu.h>
 class Cpu; //Prototype
-
+class EmuGpu;
+class Device;
 
 /*! An entire generic emulated system */
 class EmuSystem {
@@ -13,6 +16,7 @@ public:
 	/// Is the system active?
 	bool isActive;
 
+	EmuGpu * gpu;
 
 	/// Does this system need a rom
 	bool configNeedsRom = true;

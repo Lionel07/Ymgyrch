@@ -40,7 +40,7 @@ public:
 	struct {
 		unsigned int numToDissassemble = 10;
 		bool dissassemblePast = false;
-		unsigned int updateFrequency = 16; // Update at 60hz
+		unsigned int updateFrequency = 1;
 
 	} debug;
 

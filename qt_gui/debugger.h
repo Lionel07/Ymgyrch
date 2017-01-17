@@ -16,6 +16,7 @@ private:
 	Ui::Debugger *ui;
 	QTimer * clock;
 	QTimer * tlog;
+	QTimer * tips;
 	size_t log_lastsz = 0;
 
 public:
@@ -27,7 +28,8 @@ public:
 public slots:
 	void DoUpdate();
 	void UpdateLog();
-
+	void OnSetUpdateSpeed(int);
+	void CalculateIPS();
 };
 
 #endif // DEBUGGER_H
