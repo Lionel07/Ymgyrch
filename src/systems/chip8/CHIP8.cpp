@@ -8,6 +8,13 @@ System_Chip8::System_Chip8() {
 	this->name = "Chip 8";
 }
 
+System_Chip8::~System_Chip8() {
+	delete gpu;
+	for each (Cpu * processor in cpu) {
+		delete processor;
+	}
+}
+
 void System_Chip8::Init() {
 	cpu.push_back(new CPU_Chip8(this));
 
@@ -16,7 +23,7 @@ void System_Chip8::Init() {
 	mem.Map(memoryspace, 0);
 	gpu = new Chip8GPU();
 	cpu[0]->Init();
-	g_log->Log("CHIP8", "Initialised");
+	g_log->Log("CHIP8", "Initialized");
 	memoryspace->LoadData(chip8_fontset, 80, 0);
 
 	config.cpus = 1;

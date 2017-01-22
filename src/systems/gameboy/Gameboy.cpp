@@ -56,9 +56,7 @@ void System_Gameboy::Stop() {
 
 void System_Gameboy::Tick() {
 	if (!isActive) { return; }
-	for each (Cpu * processor in cpu) {
-		processor->Tick();
-	}
+	cpu[0]->Tick();
 }
 
 void System_Gameboy::Reset() {

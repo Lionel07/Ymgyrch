@@ -28,6 +28,7 @@ public:
 	};
 
 	System_Chip8();
+	~System_Chip8();
 	void Init();
 	void Start();
 	void Stop();

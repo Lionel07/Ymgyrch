@@ -107,6 +107,8 @@ void Debugger::DoUpdate() {
 
 Debugger::~Debugger()
 {
+	ui->regTable->clearContents();
+	ui->dissassembly->clearContents();
 	delete ui;
 }
 

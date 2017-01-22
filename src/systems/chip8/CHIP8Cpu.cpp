@@ -22,7 +22,7 @@ CPU_Chip8::CPU_Chip8(Ymgyrch::System * sys) : Cpu(sys)
 	instructions[0xD] = &CPU_Chip8::op_D;
 	instructions[0xE] = &CPU_Chip8::op_E;
 	instructions[0xF] = &CPU_Chip8::op_F;
-	g_log->Log(getName().c_str(), "Initialised");
+	g_log->Log(getName().c_str(), "Initialized");
 }
 
 void CPU_Chip8::Init() {
