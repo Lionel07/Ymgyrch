@@ -1,13 +1,13 @@
 #include <cpu/6502.h>
 #include <log.h>
 
-CPU_6502::CPU_6502(EmuSystem * sys) : Cpu(sys)
+CPU_6502::CPU_6502(Ymgyrch::System * sys) : Cpu(sys)
 {
 	setName("CPU0 (6502)");
 	g_log->Log(getName().c_str(), "Initialised");
 }
 
-CPU_6502::CPU_6502(EmuSystem * sys, Model model) : Cpu(sys)
+CPU_6502::CPU_6502(Ymgyrch::System * sys, Model model) : Cpu(sys)
 {
 	if (model == MODEL_2A03)
 	{

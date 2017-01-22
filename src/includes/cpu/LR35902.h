@@ -91,7 +91,7 @@ private:
 public:
 
 	/// Constructor
-	explicit CPU_LR35902(EmuSystem * sys);
+	explicit CPU_LR35902(Ymgyrch::System * sys);
 	/// Teaches the CPU all opcodes
 	void TeachInstructions();
 	void Init();

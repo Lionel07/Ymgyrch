@@ -2,7 +2,7 @@
 #include <system.h>
 
 /*! A Nintendo Entertainment System */
-class System_Nes : public EmuSystem {
+class System_Nes : public Ymgyrch::System {
 public:
 	System_Nes();
 	void Init();

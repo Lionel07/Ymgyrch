@@ -32,8 +32,8 @@ public:
 
 	Model model = MODEL_GENERIC;
 	/// Create a new 6502
-	explicit CPU_6502(EmuSystem * sys);
-	explicit CPU_6502(EmuSystem * sys, Model model);
+	explicit CPU_6502(Ymgyrch::System * sys);
+	explicit CPU_6502(Ymgyrch::System * sys, Model model);
 	void Init();
 	void Tick();
 

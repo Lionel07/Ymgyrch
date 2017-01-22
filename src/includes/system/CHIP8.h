@@ -1,9 +1,11 @@
 #pragma once
 #include <system.h>
+#include <systems/chip8/Chip8GPU.h>
+
 
 /*! A Chip8 (not SCHIP) */
 
-class System_Chip8 : public EmuSystem {
+class System_Chip8 : public Ymgyrch::System {
 public:
 	unsigned char chip8_fontset[80] =
 	{
@@ -30,6 +32,7 @@ public:
 	void Start();
 	void Stop();
 	void Tick();
+	void SubTick();
 	void Reset();
 	void LoadFile(std::string path);
 };

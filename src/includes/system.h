@@ -4,41 +4,52 @@
 #include <cpu.h>
 #include <device.h>
 #include <gpu.h>
-class Cpu; //Prototype
+
+class Cpu;
 class EmuGpu;
 class Device;
 
 /*! An entire generic emulated system */
-class EmuSystem {
-public:
-	/// The system's public name
-	std::string name;
-	/// Is the system active?
-	bool isActive;
 
-	EmuGpu * gpu;
 
-	/// Does this system need a rom
-	bool configNeedsRom = true;
+namespace Ymgyrch {
+	class System {
+	public:
+		/// The system's public name
+		std::string name;
+		/// Is the system running
+		bool isActive;
+		struct system_config {
+			bool needsROMImage = false;
+			bool needsGraphics = false;
+			bool needsSound = false;
+			bool needsInput = false;
 
-	/// All CPU's
-	std::vector<Cpu*> cpu;
+			int cpus = 0;
+			int maxram = 0;
 
-	/// The memory controller.
-	MemoryController mem;
 
-	/// Create inital system components
-	virtual void Init();
-	/// Start running the system
-	virtual void Start();
-	/// Stop running the system
-    virtual void Stop();
-	/// Runs every update. Updates all devices.
-    virtual void Tick();
-	/// Resets all devices
-    virtual void Reset();
-	/// Loads a file. Usually a ROM
-	virtual void LoadFile(std::string path);
+			bool needsSeperateClock;
+			int seperateClockSpeed = 16;
 
-	EmuSystem::~EmuSystem();
-};
+		} config;
+
+		std::vector<Cpu*> cpu;
+		MemoryController mem;
+		EmuGpu * gpu = nullptr;
+
+		/// Create inital system components
+		virtual void Init() = 0;
+		/// Start running the system
+		virtual void Start() = 0;
+		/// Stop running the system
+		virtual void Stop() = 0;
+		/// Runs every update. Updates all devices.
+		virtual void Tick() = 0;
+		virtual void SubTick() = 0;
+		/// Resets all devices
+		virtual void Reset() = 0;
+		/// Loads a file. Usually a ROM
+		virtual void LoadFile(std::string path) = 0;
+	};
+}

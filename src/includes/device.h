@@ -4,9 +4,7 @@
 #include "system.h"
 #include "cpu.h"
 
-
-class EmuSystem;
-
+class System;
 
 class Device {
 
@@ -15,9 +13,9 @@ private:
 	bool isActive = false;
 
 protected:
-	EmuSystem * sys = nullptr;
+	System * sys = nullptr;
 
 public:
-	virtual void Tick();
+	virtual void Tick() = 0;
 
 };

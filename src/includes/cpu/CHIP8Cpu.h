@@ -5,7 +5,7 @@
 
 /*! The Chip8's CPU */
 class CPU_Chip8 : public Cpu {
-private:
+public:
 	typedef struct registers {
 		uint8_t v[16];
 		
@@ -22,7 +22,7 @@ private:
 
 public:
 	/// Creates a new Chip8 CPU
-	explicit CPU_Chip8(EmuSystem * sys);
+	explicit CPU_Chip8(Ymgyrch::System * sys);
 	void Init();
 	/// Logs the current instruction to the debug log
 	std::string Dissassemble(uint16_t opcode);

@@ -12,7 +12,7 @@ void Logger::DoLog(std::string sys, std::string message)
 	fmt::MemoryWriter final_message;
 	final_message.write(fmt::format("{0:8s}: {1:s}", sys, message));
 
-	if (!g_config->log.logToStdio)
+	if (!Ymgyrch::config->log.logToStdio)
 	{
 		buffer.push_back(final_message.str());
 	}
@@ -20,7 +20,6 @@ void Logger::DoLog(std::string sys, std::string message)
 	{
 		fmt::print("{0:s}\n", final_message.str());
 	}
-	
 }
 
 void Logger::Debug(std::string component, std::string format, fmt::ArgList args)
@@ -44,7 +43,6 @@ void Logger::Panic(std::string component, std::string format, fmt::ArgList args)
 	DoLog(component, fmt::format(format, args));
 }
 
-
 void Logger::FlushBufferToX(int x)
 {
 	int lower_limit = g_log->buffer.size() - x;
@@ -53,8 +51,7 @@ void Logger::FlushBufferToX(int x)
 		lower_limit = 0;
 	}
 
-	for (int i = 0; i < lower_limit; i++) {
+	for (size_t i = 0; i < lower_limit; i++) {
 		buffer.pop_front();
 	}
 }
-

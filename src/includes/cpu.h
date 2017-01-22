@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
 #include "system.h"
-class EmuSystem;
+#include <system.h>
+
 
 namespace Ymgyrch {
+	class System;
 	enum CpuRegType {
 		REG_NONE = 0,
 		REG_GENERAL_PURPOSE,
@@ -37,7 +39,7 @@ private:
 	bool isActive = true;
 protected:
 	/// The system the CPU is running on.
-    EmuSystem * sys = nullptr;
+    Ymgyrch::System * sys = nullptr;
 public:
 
 	uint64_t instructions_total = 0;
@@ -45,9 +47,9 @@ public:
 	uint64_t ips = 0;
 
 	/// Create a new CPU
-	explicit Cpu(EmuSystem * sys);
+	explicit Cpu(Ymgyrch::System * sys);
 	/// Create a new CPU with a name.
-	explicit Cpu(EmuSystem * sys, const std::string name):sys(sys), name(name){};
+	explicit Cpu(Ymgyrch::System * sys, const std::string name):sys(sys), name(name){};
     ~Cpu();
 
 	/// Is the CPU active?

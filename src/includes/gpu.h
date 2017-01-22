@@ -4,20 +4,26 @@
 #include <system.h>
 #include <cpu.h>
 #include <device.h>
+#include <IVideoSystem.h>
+namespace Ymgyrch {
+	class System;
+}
 
-class EmuSystem;
 
 class EmuGpu : public Device {
 private:
 	std::string name;
 	bool isActive = true;
-protected:
-	EmuSystem * sys = nullptr;
-
 public:
+	Ymgyrch::System * sys = nullptr;
+	IVideoSystem * subsys = nullptr;
+public:
+	virtual void Tick() = 0;
+	virtual void Initialize() = 0;
+	virtual void Render() = 0;
+	virtual void Clear() = 0;
+	virtual void Reset() = 0;
 
-	virtual void Tick();
-	virtual void Render();
 	enum Backend {
 		NONE,
 		SDL
