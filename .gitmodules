@@ -4,3 +4,6 @@
 [submodule "lib/rlutil"]
 	path = lib/rlutil
 	url = http://github.com/tapio/rlutil
+[submodule "cmake_modules/cotire"]
+	path = cmake_modules/cotire
+	url = https://github.com/sakra/cotire
