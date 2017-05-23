@@ -46,8 +46,6 @@ void TextUI::Draw() {
 	if (refresh) {
 		Clear();
 	}
-	
-	int mid = (int)floor((float)cols / (float)2);
 	if (refreshLog || refresh) {
 		DrawLog();
 	}
@@ -68,7 +66,6 @@ void TextUI::Draw() {
 }
 void TextUI::DrawSystem()
 {
-	int mid = (int)floor((float)cols / (float)2);
 	ResetColor();
 	DrawWindow(0, rows - 8, cols - 1, 6, "Status");
 
@@ -153,7 +150,13 @@ void TextUI::DrawLog()
 	for (int i = firstEntryIndex; i < lastEntryIndex; i++)
 	{
 		rlutil::locate(3, logPosY);
-		fmt::print("{0:35s}", g_log->buffer[i]);
+
+		std::string fmt_str = "{0: <40s}";
+		if (cols > 100) {
+			fmt_str = "{0: <60s}";
+		}
+
+		fmt::print(fmt_str, g_log->buffer[i]);
 		logPosY++;
 	}
 	g_log->FlushBufferToX(max_entries);

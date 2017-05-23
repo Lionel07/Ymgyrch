@@ -9,35 +9,35 @@ namespace Ymgyrch {
 
 	Cpus::CPU2A03::opcode_t Cpus::CPU2A03::opcodes[] = {
 		{ "BRK", &Cpus::CPU2A03::Opcode_brk, 0},  // 0x0
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x1
+		{ "ORA ZPXI", &Cpus::CPU2A03::Opcode_ora_zpxi, 0},  // 0x1
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x2
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x3
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x4
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x5
+		{ "ORA ZP", &Cpus::CPU2A03::Opcode_ora_zp, 0},  // 0x5
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x6
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x7
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x8
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x9
+		{ "ORA", &Cpus::CPU2A03::Opcode_ora_im, 0},  // 0x9
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xa
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xc
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd
+		{ "ORA AB", &Cpus::CPU2A03::Opcode_ora_ab, 0},  // 0xd
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xe
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x10
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x11
+		{ "ORA ZXYI", &Cpus::CPU2A03::Opcode_ora_zpyi, 0},  // 0x11
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x12
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x13
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x14
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x15
+		{ "ORA ZPX", &Cpus::CPU2A03::Opcode_ora_zpx, 0},  // 0x15
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x16
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x17
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x18
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x19
+		{ "ORA ABY", &Cpus::CPU2A03::Opcode_ora_aby, 0},  // 0x19
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x1a
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x1b
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x1c
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x1d
+		{ "ORA ABX", &Cpus::CPU2A03::Opcode_ora_abx, 0},  // 0x1d
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x1e
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x1f
 		{ "JSR", &Cpus::CPU2A03::Opcode_jsr, 0},  // 0x20
@@ -96,7 +96,7 @@ namespace Ymgyrch {
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x55
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x56
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x57
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x58
+		{ "CLI", &Cpus::CPU2A03::Opcode_cli, 0},  // 0x58
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x59
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x5a
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x5b
@@ -128,7 +128,7 @@ namespace Ymgyrch {
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x75
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x76
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x77
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x78
+		{ "SEI", &Cpus::CPU2A03::Opcode_sei, 0},  // 0x78
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x79
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x7a
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x7b
@@ -137,71 +137,71 @@ namespace Ymgyrch {
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x7e
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x7f
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x80
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x81
+		{ "STA ZPXI", &Cpus::CPU2A03::Opcode_sta_zpxi, 0},  // 0x81
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x82
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x83
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x84
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x85
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x86
+		{ "STA ZP", &Cpus::CPU2A03::Opcode_sta_zp, 0},  // 0x85
+		{ "STX ZP", &Cpus::CPU2A03::Opcode_stx_zp, 0},  // 0x86
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x87
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x88
+		{ "DEY", &Cpus::CPU2A03::Opcode_dey, 0},  // 0x88
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x89
 		{ "TXA", &Cpus::CPU2A03::Opcode_txa, 0},  // 0x8a
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x8b
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x8c
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x8d
+		{ "STA AB", &Cpus::CPU2A03::Opcode_sta_ab, 0},  // 0x8d
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x8e
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x8f
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x90
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x91
+		{ "STA ZPYI", &Cpus::CPU2A03::Opcode_sta_zpyi, 0},  // 0x91
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x92
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x93
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x94
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x95
+		{ "STA ZP", &Cpus::CPU2A03::Opcode_sta_zpx, 0},  // 0x95
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x96
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x97
 		{ "TYA", &Cpus::CPU2A03::Opcode_tya, 0},  // 0x98
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x99
+		{ "STA ABY", &Cpus::CPU2A03::Opcode_sta_aby, 0},  // 0x99
 		{ "TXS", &Cpus::CPU2A03::Opcode_txs, 0},  // 0x9a
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x9b
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x9c
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x9d
+		{ "STA ABX", &Cpus::CPU2A03::Opcode_sta_abx, 0},  // 0x9d
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x9e
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0x9f
 		{ "LDY", &Cpus::CPU2A03::Opcode_ldy_im, 0},  // 0xa0
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xa1
 		{ "LDX", &Cpus::CPU2A03::Opcode_ldx_im, 0},  // 0xa2
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xa3
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xa4
+		{ "LDY ZP", &Cpus::CPU2A03::Opcode_ldy_zp, 0},  // 0xa4
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xa5
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xa6
+		{ "LDX ZP", &Cpus::CPU2A03::Opcode_ldx_zp, 0},  // 0xa6
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xa7
 		{ "TAY", &Cpus::CPU2A03::Opcode_tay, 0},  // 0xa8
 		{ "LDA", &Cpus::CPU2A03::Opcode_lda_im, 0},  // 0xa9
 		{ "TAX", &Cpus::CPU2A03::Opcode_tax, 0},  // 0xaa
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xab
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xac
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xad
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xae
+		{ "LDY AB", &Cpus::CPU2A03::Opcode_ldy_ab, 0},  // 0xac
+		{ "LDA AB", &Cpus::CPU2A03::Opcode_lda_ab, 0},  // 0xad
+		{ "LDX AB", &Cpus::CPU2A03::Opcode_ldx_ab, 0},  // 0xae
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xaf
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb0
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb1
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb2
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb3
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb4
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb5
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb6
+		{ "LDY ZPX", &Cpus::CPU2A03::Opcode_ldy_zpx, 0},  // 0xb4
+		{ "LDA ZPX", &Cpus::CPU2A03::Opcode_lda_zpx, 0},  // 0xb5
+		{ "LDX ZPY", &Cpus::CPU2A03::Opcode_ldx_zpy, 0},  // 0xb6
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb7
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb8
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xb9
+		{ "LDA ABY", &Cpus::CPU2A03::Opcode_lda_aby, 0},  // 0xb9
 		{ "TSX", &Cpus::CPU2A03::Opcode_tsx, 0},  // 0xba
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xbb
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xbc
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xbd
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xbe
+		{ "LDY ABX", &Cpus::CPU2A03::Opcode_ldy_abx, 0},  // 0xbc
+		{ "LDA ABX", &Cpus::CPU2A03::Opcode_lda_abx, 0},  // 0xbd
+		{ "LDX ABY", &Cpus::CPU2A03::Opcode_ldx_aby, 0},  // 0xbe
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xbf
 		{ "CPY", &Cpus::CPU2A03::Opcode_cpy_im, 0},  // 0xc0
-		{ "CMP", &Cpus::CPU2A03::Opcode_cmp_zpx, 0},  // 0xc1
+		{ "CMP ZPX", &Cpus::CPU2A03::Opcode_cmp_zpx, 0},  // 0xc1
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xc2
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xc3
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xc4
@@ -210,21 +210,21 @@ namespace Ymgyrch {
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xc7
 		{ "INY", &Cpus::CPU2A03::Opcode_iny, 0},  // 0xc8
 		{ "CMP", &Cpus::CPU2A03::Opcode_cmp_im, 0},  // 0xc9
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xca
+		{ "DEX", &Cpus::CPU2A03::Opcode_dex, 0},  // 0xca
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xcb
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xcc
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xcd
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xce
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xcf
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd0
+		{ "BNE", &Cpus::CPU2A03::Opcode_bne, 0},  // 0xd0
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd1
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd2
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd3
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd4
-		{ "CMP", &Cpus::CPU2A03::Opcode_cmp_zp, 0},  // 0xd5
+		{ "CMP ZP", &Cpus::CPU2A03::Opcode_cmp_zp, 0},  // 0xd5
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd6
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd7
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd8
+		{ "CLD", &Cpus::CPU2A03::Opcode_cld, 0},  // 0xd8
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xd9
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xda
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xdb
@@ -248,7 +248,7 @@ namespace Ymgyrch {
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xed
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xee
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xef
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf0
+		{ "BEQ", &Cpus::CPU2A03::Opcode_beq, 0},  // 0xf0
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf1
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf2
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf3
@@ -256,7 +256,7 @@ namespace Ymgyrch {
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf5
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf6
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf7
-		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf8
+		{ "SED", &Cpus::CPU2A03::Opcode_sed, 0},  // 0xf8
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xf9
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xfa
 		{ "???", &Cpus::CPU2A03::Opcode_ukn, 0},  // 0xfb
@@ -286,8 +286,9 @@ namespace Ymgyrch {
 		registers.y = 0x0;
 		registers.p = 0x34;
 		registers.s = 0xFD;
-		//0xC79E
+		registers.i = true;
 		registers.pc = sys->memController->ReadShort(0xFFFC) ; //TODO:: SET TO 0xFFFC
+		g_log->Debug("2A03", "Reset PC to {0:#04X}", registers.pc);
 		registers.cycles = 0;
 		registers.cyclesDelta = 0;
 		g_log->Debug("2A03", "Reset");
@@ -298,20 +299,17 @@ namespace Ymgyrch {
 		opcode_t operation;
 		cpu_instruction_t ins;
 		std::vector<cpu_instruction_t> dis;
-		int i = 0;
-		int lim = (State::disassembly.lines / 3) - 1;
-		uint16_t location = registers.pc - (State::disassembly.lines / 3);
+		float lim = (float)(State::disassembly.lines / 4);
+		if ((int)(lim * 4) > State::disassembly.lines) { lim -= 2; }
+		uint16_t location = registers.pc - 1;
 
 		for (int i = 0; i < lim; i++) {
 			operation = opcodes[sys->memController->ReadByte(location)];
 			ins = { location, fmt::format("{0:02X} : ", sys->memController->ReadByte(location)) + operation.dissassembly, false, false };
-			location += operation.operandSize + 1;
+			location -= 1;
 			dis.push_back(ins);
 		}
-		operation = opcodes[sys->memController->ReadByte(location)];
-		ins = { location, fmt::format("{0:02X} : ", sys->memController->ReadByte(location)) + operation.dissassembly, false, true };
-		location += operation.operandSize + 1;
-		dis.push_back(ins);
+		std::reverse(dis.begin(), dis.end());
 
 		location = registers.pc;
 		operation = opcodes[sys->memController->ReadByte(location)];
@@ -319,7 +317,7 @@ namespace Ymgyrch {
 		location += operation.operandSize + 1;
 		dis.push_back(ins);
 
-		for (int i = 0; i < (lim * 2) + 1; i++) {
+		for (int i = 0; i < (lim * 3) + 1; i++) {
 			operation = opcodes[sys->memController->ReadByte(location)];
 			ins = { location, fmt::format("{0:02X} : ", sys->memController->ReadByte(location)) + operation.dissassembly, false, false };
 			location += operation.operandSize + 1;

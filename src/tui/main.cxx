@@ -11,7 +11,7 @@ int main() {
 
 	Ymgyrch::System * sys = new Ymgyrch::Systems::NES();
 	State::romImage = "D:\\ROMS\\NES\\DonkeyKong.nes";
-
+	//State::romImage = "D:\\Developer\\NES\\test.nes";
 	g_core->Init(sys);
 	g_core->Start();
 
